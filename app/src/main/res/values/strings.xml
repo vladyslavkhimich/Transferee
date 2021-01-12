@@ -16,12 +16,17 @@
     <string name="your_favorites">Your favorites</string>
     <string name="overview">Overview</string>
     <string name="position">Position</string>
+    <string name="matches">Matches</string>
+    <string name="price_changes">Price changes</string>
+    <string name="titles">Titles</string>
+    <string name="transfers">Transfers</string>
 
     <!-- Other strings-->
     <string name="rating">Rating:</string>
     <string name="value">Value:</string>
     <string name="market_value_formatted_float">€%1$fm</string>
     <string name="market_value_formatted_integer">€%1$dm</string>
+    <string name="market_value_formatted_string">€%1$sm</string>
     <string name="fee">Fee:</string>
     <string name="contract">Contract:</string>
     <string name="market_value">Market value:</string>
@@ -36,11 +41,16 @@
     <string name="others">Others</string>
     <string name="current_price">Current price</string>
     <string name="last_price_change">Last price change</string>
-    <string name="price_changes">Price changes</string>
     <string name="previous">Previous:</string>
     <string name="new_label">New:</string>
     <string name="worldwide_price">Worldwide price</string>
     <string name="country_price">Country price</string>
+    <string name="goals_with_semicolon">Goals:</string>
+    <string name="assists_with_semicolon">Assists:</string>
+    <string name="position_with_semicolon">Position:</string>
+    <string name="yellow_card_with_semicolon">Yellow card:</string>
+    <string name="red_card_with_semicolon">Red card:</string>
+    <string name="minutes_played_with_semicolon">Minutes played:</string>
 
     <!--Test strings-->
     <string name="bruno">Bruno Fernandes</string>
@@ -62,4 +72,10 @@
     <string name="last_price_change_value">17 Dec 2020</string>
     <string name="previous_market_value">€80m</string>
     <string name="first">1st</string>
+    <string name="last_10_matches">Last 10 matches</string>
+    <string name="four">4</string>
+    <string name="everton">Everton</string>
+    <string name="match_score">3 : 1</string>
+    <string name="cam">CAM</string>
+    <string name="minute_value">50\'</string>
 </resources>

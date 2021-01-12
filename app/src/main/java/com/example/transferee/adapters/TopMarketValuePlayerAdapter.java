@@ -75,7 +75,7 @@ public class TopMarketValuePlayerAdapter extends RecyclerView.Adapter<TopMarketV
             TopMarketValuePlayerNameTextView = (TextView) itemView.findViewById(R.id.topMarketValuePlayerNameTextView);
             TopMarketValuePlayerClubImageView = (ImageView) itemView.findViewById(R.id.topMarketValuePlayerClubImageView);
             TopMarketValuePlayerClubTextView = (TextView) itemView.findViewById(R.id.topMarketValuePlayerClubTextView);
-            TopMarketValuePlayerValueTextView = (TextView) itemView.findViewById(R.id.feeTextView);
+            TopMarketValuePlayerValueTextView = (TextView) itemView.findViewById(R.id.playerTransferFeeTextView);
         }
     }
 }

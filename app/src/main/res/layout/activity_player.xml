@@ -70,20 +70,21 @@
                         />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.viewpager.widget.ViewPager
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/playerViewPager"
-                app:layout_constraintTop_toBottomOf="@id/playerHeaderContainer"
-                >
+            android:id="@+id/playerViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="175dp"
+            app:layout_constraintTop_toBottomOf="@id/playerHeaderContainer">
+
                 <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/playerTabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/playerTabLayout"
-                    app:tabTextAppearance="@style/TabHeaderText"
                     android:background="@color/block_black_darker"
                     app:tabIndicatorColor="@color/main_green"
                     app:tabIndicatorHeight="5dp"
-                    />
+                    app:tabTextAppearance="@style/TabHeaderText" />
         </androidx.viewpager.widget.ViewPager>
 </androidx.constraintlayout.widget.ConstraintLayout>

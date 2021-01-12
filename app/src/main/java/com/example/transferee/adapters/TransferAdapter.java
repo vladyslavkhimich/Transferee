@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.transferee.R;
 import com.example.transferee.helpers.DateHelper;
+import com.example.transferee.helpers.DoubleHelper;
 import com.example.transferee.models.Transfer;
 
 import java.util.ArrayList;
@@ -48,20 +49,20 @@ public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.Transf
         holder.DepartureClubImageView.setImageResource(transfer.DepartureClub.ImageID);
         holder.JoiningClubImageView.setImageResource(transfer.JoiningClub.ImageID);
         holder.JoiningClubTextView.setText(transfer.JoiningClub.ClubName);
-        if (transfer.Fee > 1.0) {
+        if (transfer.Fee > 10.0) {
             int feeInteger = (int) transfer.Fee;
             holder.FeeTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, feeInteger));
         }
         else {
-            holder.FeeTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_float, transfer.Fee));
+            holder.FeeTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_string, DoubleHelper.formatDouble(transfer.Fee)));
         }
         holder.TransferContractTextView.setText(holder.itemView.getContext().getString(R.string.contract_date, DateHelper.getStringDate(transfer.StartContractDate), DateHelper.getStringDate(transfer.EndContractDate)));
-        if (transfer.MarketValue > 1.0) {
+        if (transfer.MarketValue > 10.0) {
             int marketValueInteger = (int) transfer.MarketValue;
             holder.MarketValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, marketValueInteger));
         }
         else
-            holder.MarketValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_float, transfer.MarketValue));
+            holder.MarketValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_string, DoubleHelper.formatDouble(transfer.MarketValue)));
     }
 
     @Override
@@ -85,15 +86,15 @@ public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.Transf
             super(itemView);
 
             TransferPlayerImageView = (ImageView) itemView.findViewById(R.id.transferPlayerImageView);
-            TransferDateTextView = (TextView) itemView.findViewById(R.id.transferDateTextView);
+            TransferDateTextView = (TextView) itemView.findViewById(R.id.playerTransferDateTextView);
             TransferPlayerName = (TextView) itemView.findViewById(R.id.transferPlayerName);
-            DepartureClubTextView = (TextView) itemView.findViewById(R.id.departureClubTextView);
-            DepartureClubImageView = (ImageView) itemView.findViewById(R.id.departureClubImageView);
-            JoiningClubImageView = (ImageView) itemView.findViewById(R.id.joiningClubImageView);
-            JoiningClubTextView = (TextView) itemView.findViewById(R.id.joiningClubTextView);
-            FeeTextView = (TextView) itemView.findViewById(R.id.feeTextView);
-            TransferContractTextView = (TextView) itemView.findViewById(R.id.transferContractTextView);
-            MarketValueTextView = (TextView) itemView.findViewById(R.id.marketValueTextView);
+            DepartureClubTextView = (TextView) itemView.findViewById(R.id.playerTransferDepartureClubTextView);
+            DepartureClubImageView = (ImageView) itemView.findViewById(R.id.playerTransferDepartureClubImageView);
+            JoiningClubImageView = (ImageView) itemView.findViewById(R.id.playerTransferJoiningClubImageView);
+            JoiningClubTextView = (TextView) itemView.findViewById(R.id.playerTransferJoiningClubTextView);
+            FeeTextView = (TextView) itemView.findViewById(R.id.playerTransferFeeTextView);
+            TransferContractTextView = (TextView) itemView.findViewById(R.id.playerTransferContractTextView);
+            MarketValueTextView = (TextView) itemView.findViewById(R.id.playerTransferMarketValueTextView);
         }
     }
 }

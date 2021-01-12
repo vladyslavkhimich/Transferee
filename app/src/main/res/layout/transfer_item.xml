@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/transferDateTextView"
+        android:id="@+id/playerTransferDateTextView"
         android:text="@string/yesterday"
         style="@style/GrayRegularTextStyle"
         app:layout_constraintEnd_toEndOf="@id/transferContainer"
@@ -41,9 +41,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/departureClubTextView"
-            app:layout_constraintBottom_toBottomOf="@id/departureClubImageView"
-            app:layout_constraintEnd_toStartOf="@id/departureClubImageView"
+            android:id="@+id/playerTransferDepartureClubTextView"
+            app:layout_constraintBottom_toBottomOf="@id/playerTransferDepartureClubImageView"
+            app:layout_constraintEnd_toStartOf="@id/playerTransferDepartureClubImageView"
             android:text="@string/sporting"
             style="@style/WhiteSemiBoldTextStyle"
             app:layout_constraintTop_toBottomOf="@id/transferPlayerName"
@@ -55,7 +55,7 @@
         <ImageView
             android:layout_width="37dp"
             android:layout_height="37dp"
-            android:id="@+id/departureClubImageView"
+            android:id="@+id/playerTransferDepartureClubImageView"
             app:layout_constraintTop_toBottomOf="@id/transferPlayerName"
             app:layout_constraintEnd_toStartOf="@id/transferIcon"
             android:layout_marginEnd="5dp"
@@ -69,13 +69,13 @@
             android:src="@drawable/ic_arrow_right_outline_24"
             app:layout_constraintStart_toStartOf="@id/transferContainer"
             app:layout_constraintEnd_toEndOf="@id/transferContainer"
-            app:layout_constraintBottom_toBottomOf="@id/departureClubImageView"
+            app:layout_constraintBottom_toBottomOf="@id/playerTransferDepartureClubImageView"
             app:layout_constraintTop_toBottomOf="@id/transferPlayerName"
             />
         <ImageView
             android:layout_width="37dp"
             android:layout_height="37dp"
-            android:id="@+id/joiningClubImageView"
+            android:id="@+id/playerTransferJoiningClubImageView"
             app:layout_constraintStart_toEndOf="@id/transferIcon"
             app:layout_constraintTop_toBottomOf="@id/transferPlayerName"
             android:layout_marginStart="5dp"
@@ -84,9 +84,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/joiningClubTextView"
-            app:layout_constraintStart_toEndOf="@id/joiningClubImageView"
-            app:layout_constraintBottom_toBottomOf="@id/departureClubImageView"
+            android:id="@+id/playerTransferJoiningClubTextView"
+            app:layout_constraintStart_toEndOf="@id/playerTransferJoiningClubImageView"
+            app:layout_constraintBottom_toBottomOf="@id/playerTransferDepartureClubImageView"
             android:text="@string/manchester_united"
             style="@style/WhiteSemiBoldTextStyle"
             app:layout_constraintTop_toBottomOf="@id/transferPlayerName"
@@ -99,7 +99,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/departureClubImageView"
+            app:layout_constraintTop_toBottomOf="@id/playerTransferDepartureClubImageView"
             android:layout_marginTop="4dp"
             android:gravity="center"
             android:id="@+id/feeContractContainer"
@@ -122,7 +122,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/feeTextView"
+                    android:id="@+id/playerTransferFeeTextView"
                     style="@style/WhiteSemiBoldTextStyle"
                     android:text="@string/market_value_number"
                     android:textAlignment="center"
@@ -138,7 +138,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/transferContractTextView"
+                android:id="@+id/playerTransferContractTextView"
                 android:text="@string/test_contract_date"
                 style="@style/GrayRegularTextStyle"
                 android:layout_marginStart="5dp"
@@ -170,7 +170,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/marketValueTextView"
+                android:id="@+id/playerTransferMarketValueTextView"
                 style="@style/WhiteSemiBoldTextStyle"
                 android:text="@string/market_value_number"
                 android:textAlignment="center"

@@ -77,7 +77,7 @@ public class TopRatedPlayerAdapter extends RecyclerView.Adapter<TopRatedPlayerAd
             TopRatedPlayerNameTextView = (TextView) itemView.findViewById(R.id.topMarketValuePlayerNameTextView);
             TopRatedPlayerClubImageView = (ImageView) itemView.findViewById(R.id.topMarketValuePlayerClubImageView);
             TopRatedPlayerClubTextView = (TextView) itemView.findViewById(R.id.topMarketValuePlayerClubTextView);
-            TopRatedPlayerRatingTextView = (TextView) itemView.findViewById(R.id.feeTextView);
+            TopRatedPlayerRatingTextView = (TextView) itemView.findViewById(R.id.playerTransferFeeTextView);
         }
     }
 
