@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Transferee</string>
+    <!-- Menu strings-->
+    <string name="title_home">Home</string>
+    <string name="title_transfers">Transfers</string>
+    <string name="title_search">Search</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="add_to_favorites">Add to favorites</string>
+
+    <!-- Titles -->
+    <string name="top_rated_players">Top rated players</string>
+    <string name="top_market_value_players">Top market value players</string>
+    <string name="latest_transfers">Latest transfers</string>
+    <string name="search_players">Search players</string>
+    <string name="search_results">Search results</string>
+    <string name="your_favorites">Your favorites</string>
+    <string name="overview">Overview</string>
+    <string name="position">Position</string>
+
+    <!-- Other strings-->
+    <string name="rating">Rating:</string>
+    <string name="value">Value:</string>
+    <string name="market_value_formatted_float">€%1$fm</string>
+    <string name="market_value_formatted_integer">€%1$dm</string>
+    <string name="fee">Fee:</string>
+    <string name="contract">Contract:</string>
+    <string name="market_value">Market value:</string>
+    <string name="contract_date">%1$s - %2$s</string>
+    <string name="enter_at_least">Enter at least 3 characters to search</string>
+    <string name="height">Height</string>
+    <string name="shirt_number">Shirt number</string>
+    <string name="preferred_foot">Preferred foot</string>
+    <string name="country">Country</string>
+    <string name="pseudonym">Pseudonym</string>
+    <string name="primary">Primary</string>
+    <string name="others">Others</string>
+    <string name="current_price">Current price</string>
+    <string name="last_price_change">Last price change</string>
+    <string name="price_changes">Price changes</string>
+    <string name="previous">Previous:</string>
+    <string name="new_label">New:</string>
+    <string name="worldwide_price">Worldwide price</string>
+    <string name="country_price">Country price</string>
+
+    <!--Test strings-->
+    <string name="bruno">Bruno Fernandes</string>
+    <string name="manchester_united">Manchester United</string>
+    <string name="rating_mark">8.05</string>
+    <string name="market_value_number">€120m</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="sporting">Sporting</string>
+    <string name="test_contract_date">Jan 2020 - Jun 2023</string>
+    <string name="portugal">Portugal</string>
+    <string name="height_value">1.79m</string>
+    <string name="age_value">26 years</string>
+    <string name="date_of_birth_value">Sep 8, 1994</string>
+    <string name="player_shirt_value">18</string>
+    <string name="preferred_foot_value">Right</string>
+    <string name="pseudonym_value">Bruno Miguel Borges Fernandes</string>
+    <string name="primary_position_value">Center Attacking Midfielder</string>
+    <string name="others_position_value">Center Midfielder</string>
+    <string name="last_price_change_value">17 Dec 2020</string>
+    <string name="previous_market_value">€80m</string>
+    <string name="first">1st</string>
+</resources>
