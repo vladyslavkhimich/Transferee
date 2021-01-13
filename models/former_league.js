@@ -5,6 +5,20 @@ module.exports = (sequelize, DataTypes) => {
           autoIncrement: true,
           primaryKey: true,
           allowNull: false
+      },
+      League_ID: {
+          type: DataTypes.INTEGER,
+          references: {
+              model: 'Leagues',
+              key: 'League_ID'
+          }
+      },
+      Club_ID: {
+          type: DataTypes.INTEGER,
+          references: {
+              model: 'Clubs',
+              key: 'Club_ID'
+          }
       }
   })
 };

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('League', {
+  let league =  sequelize.define('League', {
       League_ID: {
           type: DataTypes.INTEGER,
           autoIncrement:true,
@@ -7,6 +7,20 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
       },
       Name: DataTypes.STRING,
-      Number_Of_Teams: DataTypes.INTEGER
-  })
+      Number_Of_Teams: DataTypes.INTEGER,
+      Country_ID: {
+          type: DataTypes.INTEGER,
+          references: {
+              model: 'Countries',
+              key: 'Country_ID'
+          }
+
+      }
+  });
+  league.associate = (models) => {
+      league.belongsToMany(models.Club, {through: models.Former_League, foreignKey: 'League_ID'});
+      league.belongsTo(models.Country, {foreignKey: 'Country_ID'});
+      league.hasMany(models.League_Season, {foreignKey: 'League_ID'});
+  };
+  return league;
 };

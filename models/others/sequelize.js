@@ -1,4 +1,4 @@
-const Sequelize = require('models/others/sequelize');
+const Sequelize = require('sequelize');
 const sequelize = new Sequelize('Transferee_Database', 'root', 'mypassword123', {
     dialect: 'mysql',
     host: 'localhost',

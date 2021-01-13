@@ -10,15 +10,16 @@ const adminBro = require('./admin');
 
 
 const app = express();
-//const databaseSequelize = require('./models/database_sequelize');
+//const databaseSequelize = require('./models/others/database_sequelize');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 const router = AdminBroExpress.buildRouter(adminBro);
+const playerRouter = require('./routes/playerRouter');
 
 
 app.use(adminBro.options.rootPath, router);
-
+app.use('/player', playerRouter);
 app.get('/', function(request, response) {
    response.send('Express is working properly');
 });

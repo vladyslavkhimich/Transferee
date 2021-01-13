@@ -7,6 +7,20 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         Date_Of_Joining: DataTypes.DATEONLY,
-        Date_Of_Departure: DataTypes.DATEONLY
+        Date_Of_Departure: DataTypes.DATEONLY,
+        Club_ID: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'Clubs',
+                key: 'Club_ID'
+            }
+        },
+        Player_ID: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'Players',
+                key: 'Player_ID'
+            }
+        }
     })
 };

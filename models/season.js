@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('Season', {
+    let season = sequelize.define('Season', {
         Season_ID: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -10,4 +10,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(5)
         }
     });
+    season.associate = (models) => {
+        season.hasMany(models.League_Season, {foreignKey: 'Season_ID'});
+    };
+    return season;
 };

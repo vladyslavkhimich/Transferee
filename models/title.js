@@ -1,12 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('Title', {
+    let title = sequelize.define('Title', {
         Title_ID: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
             allowNull: false
         },
-        Title_Name: DataTypes.STRING,
+        Name: DataTypes.STRING,
         Title_Image: DataTypes.STRING
-    })
+    });
+    title.associate = (models) => {
+        title.hasMany(models.Club_Title, {foreignKey: 'Title_ID'});
+    };
+    return title;
 };
