@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
+const https = require('https');
 
 const AdminBro = require('admin-bro');
 const AdminBroExpress = require('@admin-bro/express');
@@ -20,6 +22,8 @@ const playerRouter = require('./routes/playerRouter');
 
 app.use(adminBro.options.rootPath, router);
 app.use('/player', playerRouter);
+let dir = path.join(__dirname, 'public');
+app.use(express.static(dir));
 app.get('/', function(request, response) {
    response.send('Express is working properly');
 });
