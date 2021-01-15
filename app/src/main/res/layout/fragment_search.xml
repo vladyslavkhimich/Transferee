@@ -55,12 +55,22 @@
                 android:text="@string/search_results"
                 style="@style/TitlesStyle"
                 />
-            <androidx.recyclerview.widget.RecyclerView
+            <com.example.transferee.helpers.RecyclerViewEmptySupport
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/searchResultsRecyclerView"
                 app:layout_constraintTop_toBottomOf="@id/searchResultsTitle"
                 android:layout_marginTop="15dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/searchResultsRecyclerView"
+                style="@style/GrayRegularTextStyle"
+                android:text="@string/no_players_found"
+                android:textSize="22sp"
+                android:gravity="center"
+                android:id="@+id/foundPlayersEmpty"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -5,8 +5,10 @@ import android.util.Log;
 import com.example.transferee.helpers.CallbackCustom;
 import com.example.transferee.web.RetrofitService;
 import com.example.transferee.web.WebService;
+import com.example.transferee.web.pojo.FoundPlayersPOJO;
 import com.example.transferee.web.pojo.LatestTransfersPOJO;
 import com.example.transferee.web.pojo.TopRatedPlayersPOJO;
+import com.example.transferee.web.pojo.response.FoundPlayersResponse;
 import com.example.transferee.web.pojo.response.LatestTransfersResponse;
 import com.example.transferee.web.pojo.response.TopMarketPlayersResponse;
 import com.example.transferee.web.pojo.TopMarketValuePlayersPOJO;
@@ -38,8 +40,10 @@ public class PlayerRepository {
         WebService.getTopRatedPlayers().enqueue(new Callback<TopRatedPlayersResponse>() {
             @Override
             public void onResponse(Call<TopRatedPlayersResponse> call, Response<TopRatedPlayersResponse> response) {
-                TopRatedPlayersResponse topRatedPlayersResponse = response.body();
-                callback.next(new ArrayList<>(topRatedPlayersResponse.getTopRatedPlayersPOJO()));
+                if (response.isSuccessful()) {
+                    TopRatedPlayersResponse topRatedPlayersResponse = response.body();
+                    callback.next(new ArrayList<>(topRatedPlayersResponse.getTopRatedPlayersPOJO()));
+                }
             }
 
             @Override
@@ -53,8 +57,10 @@ public class PlayerRepository {
         WebService.getTopMarketValuePlayers().enqueue(new Callback<TopMarketPlayersResponse>() {
             @Override
             public void onResponse(Call<TopMarketPlayersResponse> call, Response<TopMarketPlayersResponse> response) {
-                TopMarketPlayersResponse topMarketPlayersResponse = response.body();
-                callback.next(new ArrayList<>(topMarketPlayersResponse != null ? topMarketPlayersResponse.getTopMarketValuePlayersPOJO(): null));
+                if (response.isSuccessful()) {
+                    TopMarketPlayersResponse topMarketPlayersResponse = response.body();
+                    callback.next(new ArrayList<>(topMarketPlayersResponse != null ? topMarketPlayersResponse.getTopMarketValuePlayersPOJO(): null));
+                }
             }
 
             @Override
@@ -68,12 +74,33 @@ public class PlayerRepository {
         WebService.getLatestTransfers().enqueue(new Callback<LatestTransfersResponse>() {
             @Override
             public void onResponse(Call<LatestTransfersResponse> call, Response<LatestTransfersResponse> response) {
-                LatestTransfersResponse latestTransfersResponse = response.body();
-                callback.next(new ArrayList<>(latestTransfersResponse != null ? latestTransfersResponse.getLatestTransfersPOJO() : null));
+                if (response.isSuccessful()) {
+                    LatestTransfersResponse latestTransfersResponse = response.body();
+                    callback.next(new ArrayList<>(latestTransfersResponse != null ? latestTransfersResponse.getLatestTransfersPOJO() : null));
+                }
             }
 
             @Override
             public void onFailure(Call<LatestTransfersResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void findPlayersByNameOnServer(CallbackCustom<List<FoundPlayersPOJO>> callback, String searchText) {
+        WebService.findPlayers(searchText).enqueue(new Callback<FoundPlayersResponse>() {
+            @Override
+            public void onResponse(Call<FoundPlayersResponse> call, Response<FoundPlayersResponse> response) {
+                if (response.code() == 404)
+                    callback.next(null);
+                if (response.isSuccessful()) {
+                    FoundPlayersResponse foundPlayersResponse = response.body();
+                    callback.next(new ArrayList<>(foundPlayersResponse != null ? foundPlayersResponse.getFoundPlayersPOJO() : null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FoundPlayersResponse> call, Throwable t) {
 
             }
         });

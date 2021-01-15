@@ -52,6 +52,7 @@
     <string name="red_card_with_semicolon">Red card:</string>
     <string name="minutes_played_with_semicolon">Minutes played:</string>
     <string name="unable_to_load_data">Unable to load data</string>
+    <string name="no_players_found">No players found</string>
 
     <!--Test strings-->
     <string name="bruno">Bruno Fernandes</string>

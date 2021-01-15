@@ -12,18 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.transferee.R;
 import com.example.transferee.models.SearchedPlayer;
+import com.example.transferee.web.RetrofitService;
+import com.example.transferee.web.pojo.FoundPlayersPOJO;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class SearchedPlayerAdapter extends RecyclerView.Adapter<SearchedPlayerAdapter.SearchedPlayerViewHolder>{
-    private ArrayList<SearchedPlayer> SearchedPlayers;
+    private ArrayList<FoundPlayersPOJO> FoundPlayers = new ArrayList<>();
 
     public SearchedPlayerAdapter() {
 
     }
 
-    public void setSearchedPlayers(ArrayList<SearchedPlayer> searchedPlayers) {
-        SearchedPlayers = searchedPlayers;
+    public void setFoundPlayers(ArrayList<FoundPlayersPOJO> foundPlayers) {
+        FoundPlayers = foundPlayers;
         notifyDataSetChanged();
     }
     @NonNull
@@ -39,19 +42,18 @@ public class SearchedPlayerAdapter extends RecyclerView.Adapter<SearchedPlayerAd
 
     @Override
     public void onBindViewHolder(@NonNull SearchedPlayerViewHolder holder, int position) {
-        SearchedPlayer searchedPlayer = SearchedPlayers.get(position);
-
-        holder.SearchedPlayerImageView.setImageResource(searchedPlayer.Player.PlayerImageID);
-        holder.SearchedPlayerNameTextView.setText(searchedPlayer.Player.PlayerName);
-        holder.SearchedPlayerClubImageView.setImageResource(searchedPlayer.Club.ImageID);
-        holder.SearchedPlayerClubTextView.setText(searchedPlayer.Club.ClubName);
-        holder.SearchedPlayerCountryImageView.setImageResource(searchedPlayer.Country.CountryImageID);
-        holder.SearchedPlayerCountryTextView.setText(searchedPlayer.Country.CountryName);
+        FoundPlayersPOJO foundPlayer = FoundPlayers.get(position);
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + foundPlayer.getImageURL()).into(holder.SearchedPlayerImageView);
+        holder.SearchedPlayerNameTextView.setText(foundPlayer.getName());
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + foundPlayer.getClubURL()).into(holder.SearchedPlayerClubImageView);
+        holder.SearchedPlayerClubTextView.setText(foundPlayer.getClubName());
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + foundPlayer.getCountryURL()).into(holder.SearchedPlayerCountryImageView);
+        holder.SearchedPlayerCountryTextView.setText(foundPlayer.getCountryName());
     }
 
     @Override
     public int getItemCount() {
-        return SearchedPlayers.size();
+        return FoundPlayers.size();
     }
 
     public class SearchedPlayerViewHolder extends RecyclerView.ViewHolder {
