@@ -72,3 +72,26 @@ exports.findLatestTransfers = (req, res) => {
         });
 
 };
+
+exports.findPlayersByName = (req, res) => {
+    let searchText = req.query.searchText;
+    db.Player.findAll({ include: [{model: db.Club, order: [[db.Former_Club, 'Date_Of_Joining', 'DESC']]}], where: { Name: sequelize.where(sequelize.fn('LOWER', sequelize.col('Player.Name')), 'LIKE', '%' + searchText + '%') }}).then(players => {
+        if (players.length === 0) {
+            res.status(404).send();
+        }
+        else {
+                let playersProcessedCount = 0;
+            players.forEach(player => {
+                db.Country.findByPk(player.Country_ID).then(country => {
+                   player.setDataValue('Country', country);
+                   playersProcessedCount++;
+                   if (playersProcessedCount === players.length) {
+                       let foundPlayersResponse = players.map((player) => ({Player_ID: player.Player_ID, Name: player.Name, Image_URL: ImageHelper.getPlayerImagePath(player.Image), Club_URL: ImageHelper.getClubImagePath(player.Clubs[0].Logo), Club_Name: player.Clubs[0].Name, Country_URL: ImageHelper.getCountryImagePath(player.getDataValue('Country').Flag), Country_Name: player.getDataValue('Country').Name}));
+                       let foundPlayersJSON = {foundPlayersPOJO: JSON.parse(JSON.stringify(foundPlayersResponse))};
+                       res.json(foundPlayersJSON);
+                   }
+                });
+            });
+        }
+    });
+};

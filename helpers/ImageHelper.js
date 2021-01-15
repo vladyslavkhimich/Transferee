@@ -5,5 +5,11 @@ const getClubImagePath = (imageName) => {
 const getPlayerImagePath = (imageName) => {
     return '/images/player/' + imageName + '.png';
 };
+
+const getCountryImagePath = (imageName) => {
+    return '/images/country/' + imageName + '.png';
+};
+
 exports.getClubImagePath = getClubImagePath;
 exports.getPlayerImagePath = getPlayerImagePath;
+exports.getCountryImagePath = getCountryImagePath;
