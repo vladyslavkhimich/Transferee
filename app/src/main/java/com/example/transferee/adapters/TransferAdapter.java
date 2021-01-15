@@ -13,19 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.transferee.R;
 import com.example.transferee.helpers.DateHelper;
 import com.example.transferee.helpers.DoubleHelper;
-import com.example.transferee.models.Transfer;
+import com.example.transferee.web.RetrofitService;
+import com.example.transferee.web.pojo.LatestTransfersPOJO;
+import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.TransferViewHolder> {
 
-    private ArrayList<Transfer> Transfers;
+    private ArrayList<LatestTransfersPOJO> LatestTransfersPOJO = new ArrayList<>();
     public TransferAdapter() {
 
     }
 
-    public void setTransfers(ArrayList<Transfer> transfers) {
-        Transfers = transfers;
+    public void setLatestTransfersPOJO(ArrayList<LatestTransfersPOJO> latestTransfersPOJO) {
+        LatestTransfersPOJO = latestTransfersPOJO;
         notifyDataSetChanged();
     }
     @NonNull
@@ -41,33 +44,41 @@ public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.Transf
 
     @Override
     public void onBindViewHolder(@NonNull TransferViewHolder holder, int position) {
-        Transfer transfer = Transfers.get(position);
-        holder.TransferPlayerImageView.setImageResource(transfer.TransferredPlayer.PlayerImageID);
-        holder.TransferDateTextView.setText(DateHelper.getStringDateWithDay(transfer.TransferDate));
-        holder.TransferPlayerName.setText(transfer.TransferredPlayer.PlayerName);
-        holder.DepartureClubTextView.setText(transfer.DepartureClub.ClubName);
-        holder.DepartureClubImageView.setImageResource(transfer.DepartureClub.ImageID);
-        holder.JoiningClubImageView.setImageResource(transfer.JoiningClub.ImageID);
-        holder.JoiningClubTextView.setText(transfer.JoiningClub.ClubName);
-        if (transfer.Fee > 10.0) {
-            int feeInteger = (int) transfer.Fee;
+        LatestTransfersPOJO latestTransferPOJO = LatestTransfersPOJO.get(position);
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + latestTransferPOJO.getImageURL()).into(holder.TransferPlayerImageView);
+        try {
+            holder.TransferDateTextView.setText(DateHelper.getStringDateWithDay(latestTransferPOJO.getDateOfTransfer()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.TransferPlayerName.setText(latestTransferPOJO.getName());
+        holder.DepartureClubTextView.setText(latestTransferPOJO.getDepartureClubName());
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + latestTransferPOJO.getDepartureClubURL()).into(holder.DepartureClubImageView);
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + latestTransferPOJO.getJoiningClubURL()).into(holder.JoiningClubImageView);
+        holder.JoiningClubTextView.setText(latestTransferPOJO.getJoiningClubName());
+        if (latestTransferPOJO.getTransferPrice() > 10.0) {
+            int feeInteger = (int) latestTransferPOJO.getTransferPrice();
             holder.FeeTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, feeInteger));
         }
         else {
-            holder.FeeTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_string, DoubleHelper.formatDouble(transfer.Fee)));
+            holder.FeeTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_string, DoubleHelper.formatDouble(latestTransferPOJO.getTransferPrice())));
         }
-        holder.TransferContractTextView.setText(holder.itemView.getContext().getString(R.string.contract_date, DateHelper.getStringDate(transfer.StartContractDate), DateHelper.getStringDate(transfer.EndContractDate)));
-        if (transfer.MarketValue > 10.0) {
-            int marketValueInteger = (int) transfer.MarketValue;
+        try {
+            holder.TransferContractTextView.setText(holder.itemView.getContext().getString(R.string.contract_date, DateHelper.getStringDate(latestTransferPOJO.getContractStartDate()), DateHelper.getStringDate(latestTransferPOJO.getContractFinishDate())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (latestTransferPOJO.getMarketValue() > 10.0) {
+            int marketValueInteger = (int) latestTransferPOJO.getMarketValue();
             holder.MarketValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, marketValueInteger));
         }
         else
-            holder.MarketValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_string, DoubleHelper.formatDouble(transfer.MarketValue)));
+            holder.MarketValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_string, DoubleHelper.formatDouble(latestTransferPOJO.getMarketValue())));
     }
 
     @Override
     public int getItemCount() {
-        return Transfers.size();
+        return LatestTransfersPOJO.size();
     }
 
     public class TransferViewHolder extends RecyclerView.ViewHolder {

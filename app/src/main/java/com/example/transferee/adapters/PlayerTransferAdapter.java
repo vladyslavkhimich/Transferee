@@ -43,7 +43,7 @@ public class PlayerTransferAdapter extends RecyclerView.Adapter<PlayerTransferAd
     @Override
     public void onBindViewHolder(@NonNull PlayerTransferViewHolder holder, int position) {
         PlayerTransfer playerTransfer = PlayerTransfers.get(position);
-        holder.PlayerTransferDateTextView.setText(DateHelper.getStringDateWithDay(playerTransfer.TransferDate));
+        //holder.PlayerTransferDateTextView.setText(DateHelper.getStringDateWithDay(playerTransfer.TransferDate));
         holder.PlayerTransferDepartureClubTextView.setText(playerTransfer.DepartureClub.ClubName);
         holder.PlayerTransferDepartureClubImageView.setImageResource(playerTransfer.DepartureClub.ImageID);
         holder.PlayerTransferJoiningClubImageView.setImageResource(playerTransfer.JoiningClub.ImageID);
@@ -55,7 +55,7 @@ public class PlayerTransferAdapter extends RecyclerView.Adapter<PlayerTransferAd
         else {
             holder.PlayerTransferFeeTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_string, DoubleHelper.formatDouble(playerTransfer.Fee)));
         }
-        holder.PlayerTransferContractTextView.setText(holder.itemView.getContext().getString(R.string.contract_date, DateHelper.getStringDate(playerTransfer.StartContractDate), DateHelper.getStringDate(playerTransfer.EndContractDate)));
+        //holder.PlayerTransferContractTextView.setText(holder.itemView.getContext().getString(R.string.contract_date, DateHelper.getStringDate(playerTransfer.StartContractDate), DateHelper.getStringDate(playerTransfer.EndContractDate)));
         if (playerTransfer.MarketValue > 10.0) {
             int marketValueInteger = (int) playerTransfer.MarketValue;
             holder.PlayerTransferMarketValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, marketValueInteger));

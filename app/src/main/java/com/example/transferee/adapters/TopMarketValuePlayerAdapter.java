@@ -12,17 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.transferee.R;
 import com.example.transferee.models.TopMarketValuePlayer;
+import com.example.transferee.web.RetrofitService;
+import com.example.transferee.web.pojo.TopMarketValuePlayersPOJO;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class TopMarketValuePlayerAdapter extends RecyclerView.Adapter<TopMarketValuePlayerAdapter.TopMarketValuePlayerViewHolder>{
-    private ArrayList<TopMarketValuePlayer> TopMarketValuePlayers;
+    private ArrayList<TopMarketValuePlayersPOJO> TopMarketValuePlayers = new ArrayList<>();
 
     public TopMarketValuePlayerAdapter() {
 
     }
 
-    public void setTopMarketValuePlayers(ArrayList<TopMarketValuePlayer> topMarketValuePlayers) {
+    public void setTopMarketValuePlayers(ArrayList<TopMarketValuePlayersPOJO> topMarketValuePlayers) {
         TopMarketValuePlayers = topMarketValuePlayers;
         notifyDataSetChanged();
     }
@@ -35,24 +38,22 @@ public class TopMarketValuePlayerAdapter extends RecyclerView.Adapter<TopMarketV
 
         View topRatedPlayerView = inflater.inflate(R.layout.top_market_value_player_item, parent, false);
 
-        TopMarketValuePlayerAdapter.TopMarketValuePlayerViewHolder topMarketValuePlayerViewHolder = new TopMarketValuePlayerAdapter.TopMarketValuePlayerViewHolder(topRatedPlayerView);
-        return  topMarketValuePlayerViewHolder;
+        return new TopMarketValuePlayerViewHolder(topRatedPlayerView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TopMarketValuePlayerAdapter.TopMarketValuePlayerViewHolder holder, int position) {
-        TopMarketValuePlayer topMarketValuePlayer = TopMarketValuePlayers.get(position);
-
-        holder.TopMarketValuePlayerImageView.setImageResource(topMarketValuePlayer.Player.PlayerImageID);
-        holder.TopMarketValuePlayerNameTextView.setText(topMarketValuePlayer.Player.PlayerName);
-        holder.TopMarketValuePlayerClubImageView.setImageResource(topMarketValuePlayer.Club.ImageID);
-        holder.TopMarketValuePlayerClubTextView.setText(topMarketValuePlayer.Club.ClubName);
-        if (topMarketValuePlayer.MarketValue > 1.0) {
-            int marketValueInteger = (int) topMarketValuePlayer.MarketValue;
+        TopMarketValuePlayersPOJO topMarketValuePlayerPOJO = TopMarketValuePlayers.get(position);
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + topMarketValuePlayerPOJO.getImageURL()).into(holder.TopMarketValuePlayerImageView);
+        holder.TopMarketValuePlayerNameTextView.setText(topMarketValuePlayerPOJO.getName());
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + topMarketValuePlayerPOJO.getClubURL()).into(holder.TopMarketValuePlayerClubImageView);
+        holder.TopMarketValuePlayerClubTextView.setText(topMarketValuePlayerPOJO.getClubName());
+        if (topMarketValuePlayerPOJO.getMarketPrice() > 1.0) {
+            int marketValueInteger = (int) topMarketValuePlayerPOJO.getMarketPrice();
             holder.TopMarketValuePlayerValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, marketValueInteger));
         }
         else {
-            holder.TopMarketValuePlayerValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_float, topMarketValuePlayer.MarketValue));
+            holder.TopMarketValuePlayerValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_float, topMarketValuePlayerPOJO.getMarketPrice()));
         }
     }
 

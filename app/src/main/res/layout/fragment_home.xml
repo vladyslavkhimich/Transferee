@@ -25,7 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="15dp"/>
-        <androidx.recyclerview.widget.RecyclerView
+        <com.example.transferee.helpers.RecyclerViewEmptySupport
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/topRatedPlayersRecyclerView"
@@ -35,18 +35,38 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/topMarketValuePlayersTextView"
+            android:id="@+id/topRatedPlayersEmpty"
             app:layout_constraintTop_toBottomOf="@id/topRatedPlayersRecyclerView"
+            android:text="@string/unable_to_load_data"
+            android:gravity="center_horizontal"
+            style="@style/GrayRegularTextStyle"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/topMarketValuePlayersTextView"
+            app:layout_constraintTop_toBottomOf="@id/topRatedPlayersEmpty"
             android:layout_marginTop="15dp"
             android:text="@string/top_market_value_players"
             style="@style/TitlesStyle"
             />
-        <androidx.recyclerview.widget.RecyclerView
+        <com.example.transferee.helpers.RecyclerViewEmptySupport
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/topMarketValuePlayersRecyclerView"
             app:layout_constraintTop_toBottomOf="@id/topMarketValuePlayersTextView"
             android:layout_marginTop="15dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/topMarketValuePlayersEmpty"
+            app:layout_constraintTop_toBottomOf="@id/topMarketValuePlayersRecyclerView"
+            android:text="@string/unable_to_load_data"
+            android:gravity="center_horizontal"
+            style="@style/GrayRegularTextStyle"
+            android:textSize="20sp"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

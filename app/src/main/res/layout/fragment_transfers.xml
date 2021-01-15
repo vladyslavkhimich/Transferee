@@ -25,12 +25,22 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="15dp"
                     />
-                <androidx.recyclerview.widget.RecyclerView
+                <com.example.transferee.helpers.RecyclerViewEmptySupport
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/latestTransfersRecyclerView"
                     app:layout_constraintTop_toBottomOf="@id/latestTransfersTextView"
                     android:layout_marginTop="10dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/latestTransfersEmpty"
+                    app:layout_constraintTop_toBottomOf="@id/latestTransfersRecyclerView"
+                    android:text="@string/unable_to_load_data"
+                    android:gravity="center_horizontal"
+                    style="@style/GrayRegularTextStyle"
+                    android:textSize="20sp"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

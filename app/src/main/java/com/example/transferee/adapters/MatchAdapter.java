@@ -45,7 +45,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
     public void onBindViewHolder(@NonNull MatchViewHolder holder, int position) {
         Match match = Matches.get(position);
 
-        holder.MatchDateTextView.setText(DateHelper.getStringDateWithDay(match.MatchDate));
+        //holder.MatchDateTextView.setText(DateHelper.getStringDateWithDay(match.MatchDate));
         holder.MatchClubImageView.setImageResource(match.ClubAgainst.ImageID);
         holder.MatchClubTextView.setText(match.ClubAgainst.ClubName);
         holder.MatchScoreTextView.setText(match.MatchScore);

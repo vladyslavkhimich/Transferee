@@ -44,7 +44,7 @@ public class PlayerPriceChangesAdapter extends RecyclerView.Adapter<PlayerPriceC
     public void onBindViewHolder(@NonNull PriceChangeViewHolder holder, int position) {
         PriceChange priceChange = PriceChanges.get(position);
 
-        holder.PriceChangeDateTextView.setText(DateHelper.getStringDateWithDay(priceChange.PriceChangeDate));
+        //holder.PriceChangeDateTextView.setText(DateHelper.getStringDateWithDay(priceChange.PriceChangeDate));
         if (priceChange.PreviousPrice > 1.0) {
             int previousPriceInteger = (int) priceChange.PreviousPrice;
             holder.PreviousPriceTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, previousPriceInteger));

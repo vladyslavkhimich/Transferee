@@ -13,19 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.transferee.PlayerActivity;
 import com.example.transferee.R;
+import com.example.transferee.web.RetrofitService;
+import com.example.transferee.web.pojo.TopRatedPlayersPOJO;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class TopRatedPlayerAdapter extends RecyclerView.Adapter<TopRatedPlayerAdapter.TopRatedPlayerViewHolder> {
 
-    private ArrayList<com.example.transferee.web.pojo.TopRatedPlayersPOJO> TopRatedPlayersPOJO = new ArrayList<>();
+    private ArrayList<TopRatedPlayersPOJO> TopRatedPlayersPOJO = new ArrayList<>();
 
     public TopRatedPlayerAdapter() {
 
     }
 
-    public void setTopRatedPlayersPOJO(ArrayList<com.example.transferee.web.pojo.TopRatedPlayersPOJO> topRatedPlayersPOJO) {
+    public void setTopRatedPlayersPOJO(ArrayList<TopRatedPlayersPOJO> topRatedPlayersPOJO) {
         TopRatedPlayersPOJO = topRatedPlayersPOJO;
         notifyDataSetChanged();
     }
@@ -43,13 +45,10 @@ public class TopRatedPlayerAdapter extends RecyclerView.Adapter<TopRatedPlayerAd
 
     @Override
     public void onBindViewHolder(@NonNull TopRatedPlayerViewHolder holder, int position) {
-        com.example.transferee.web.pojo.TopRatedPlayersPOJO topRatedPlayersPOJO = TopRatedPlayersPOJO.get(position);
-
-        //holder.TopRatedPlayerImageView.setImageResource(topRatedPlayerPOJO.Player.PlayerImageID);
-        Picasso.get().load("http://10.0.2.2:3000" + topRatedPlayersPOJO.getImageURL()).into(holder.TopRatedPlayerImageView);
+        TopRatedPlayersPOJO topRatedPlayersPOJO = TopRatedPlayersPOJO.get(position);
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + topRatedPlayersPOJO.getImageURL()).into(holder.TopRatedPlayerImageView);
         holder.TopRatedPlayerNameTextView.setText(topRatedPlayersPOJO.getName());
-        //holder.TopRatedPlayerClubImageView.setImageResource(topRatedPlayerPOJO.Club.ImageID);
-        Picasso.get().load("http://10.0.2.2:3000" + topRatedPlayersPOJO.getClubURL()).into(holder.TopRatedPlayerClubImageView);
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + topRatedPlayersPOJO.getClubURL()).into(holder.TopRatedPlayerClubImageView);
         holder.TopRatedPlayerClubTextView.setText(topRatedPlayersPOJO.getClubName());
         holder.TopRatedPlayerRatingTextView.setText(Double.toString(topRatedPlayersPOJO.getAverageRating()));
     }

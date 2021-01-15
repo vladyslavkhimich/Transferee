@@ -1,7 +1,5 @@
 package com.example.transferee.ui.home;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -13,6 +11,7 @@ import com.example.transferee.models.TopMarketValuePlayer;
 import com.example.transferee.models.TopRatedPlayer;
 import com.example.transferee.repository.PlayerRepository;
 import com.example.transferee.web.pojo.TopRatedPlayersPOJO;
+import com.example.transferee.web.pojo.TopMarketValuePlayersPOJO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +19,11 @@ import java.util.List;
 public class HomeViewModel extends ViewModel {
 
     MutableLiveData<ArrayList<TopRatedPlayersPOJO>> TopRatedPlayers = new MutableLiveData<>();
-    MutableLiveData<ArrayList<TopMarketValuePlayer>> TopMarketValuePlayers;
+    MutableLiveData<ArrayList<TopMarketValuePlayersPOJO>> TopMarketValuePlayers = new MutableLiveData<>();
 
     public HomeViewModel() {
-        TopMarketValuePlayers = new MutableLiveData<>();
         //generateTopRatedPlayers();
-        generateTopMarketValuePlayers();
+        //generateTopMarketValuePlayers();
     }
 
     private void generateTopRatedPlayers() {
@@ -45,16 +43,11 @@ public class HomeViewModel extends ViewModel {
         topMarketValuePlayers.add(new TopMarketValuePlayer(new Player(R.drawable.kevin, "Kevin De Bruyne"), 120, ManchesterCity));
         topMarketValuePlayers.add(new TopMarketValuePlayer(new Player(R.drawable.bruno, "Bruno Fernandes"), 90, ManchesterUnited));
         topMarketValuePlayers.add(new TopMarketValuePlayer(new Player(R.drawable.marcus, "Marcus Rashford"), 80, ManchesterUnited));
-        TopMarketValuePlayers.setValue(topMarketValuePlayers);
+        //TopMarketValuePlayers.setValue(topMarketValuePlayers);
     }
 
     public MutableLiveData<ArrayList<TopRatedPlayersPOJO>> getTopRatedPlayers() {
-        Log.v("GettingPlayers", "true");
         return TopRatedPlayers;
-    }
-
-    public MutableLiveData<ArrayList<TopMarketValuePlayer>> getTopMarketValuePlayers() {
-        return TopMarketValuePlayers;
     }
 
     public void setTopRatedPlayers(ArrayList<TopRatedPlayersPOJO> topRatedPlayers) {
@@ -65,8 +58,26 @@ public class HomeViewModel extends ViewModel {
         PlayerRepository.getInstance().getTopRatedPlayersFromServer(new CallbackCustom<List<TopRatedPlayersPOJO>>() {
             @Override
             public void next(List<TopRatedPlayersPOJO> result) {
-                Log.v("result", result.toString());
-                setTopRatedPlayers(new ArrayList<TopRatedPlayersPOJO>(result));
+                if (result != null)
+                    setTopRatedPlayers(new ArrayList<TopRatedPlayersPOJO>(result));
+            }
+        });
+    }
+
+    public MutableLiveData<ArrayList<TopMarketValuePlayersPOJO>> getTopMarketValuePlayers() {
+        return TopMarketValuePlayers;
+    }
+
+    public void setTopMarketValuePlayers(ArrayList<TopMarketValuePlayersPOJO> topMarketValuePlayers) {
+        TopMarketValuePlayers.setValue(topMarketValuePlayers);
+    }
+
+    public void setTopMarketValuePlayersVoid() {
+        PlayerRepository.getInstance().getTopMarketValuePlayersFromServer(new CallbackCustom<List<TopMarketValuePlayersPOJO>>() {
+            @Override
+            public void next(List<TopMarketValuePlayersPOJO> result) {
+                if (result != null)
+                    setTopMarketValuePlayers(new ArrayList<TopMarketValuePlayersPOJO>(result));
             }
         });
     }
