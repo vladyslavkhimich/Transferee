@@ -14,19 +14,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.transferee.R;
 import com.example.transferee.helpers.DateHelper;
 import com.example.transferee.models.PriceChange;
+import com.example.transferee.web.RetrofitService;
+import com.example.transferee.web.pojo.PriceChangesPOJO;
+import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class PlayerPriceChangesAdapter extends RecyclerView.Adapter<PlayerPriceChangesAdapter.PriceChangeViewHolder> {
 
-    private ArrayList<PriceChange> PriceChanges;
+    private ArrayList<PriceChangesPOJO> PriceChanges = new ArrayList<>();
 
     public PlayerPriceChangesAdapter() {
 
     }
 
-    public void setPriceChanges(ArrayList<PriceChange> priceChanges) {
+    public void setPriceChanges(ArrayList<PriceChangesPOJO> priceChanges) {
         PriceChanges = priceChanges;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -42,27 +47,43 @@ public class PlayerPriceChangesAdapter extends RecyclerView.Adapter<PlayerPriceC
 
     @Override
     public void onBindViewHolder(@NonNull PriceChangeViewHolder holder, int position) {
-        PriceChange priceChange = PriceChanges.get(position);
-
-        //holder.PriceChangeDateTextView.setText(DateHelper.getStringDateWithDay(priceChange.PriceChangeDate));
-        if (priceChange.PreviousPrice > 1.0) {
-            int previousPriceInteger = (int) priceChange.PreviousPrice;
-            holder.PreviousPriceTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, previousPriceInteger));
+        PriceChangesPOJO priceChange = PriceChanges.get(position);
+        try {
+            holder.PriceChangeDateTextView.setText(DateHelper.getStringDateWithDay(priceChange.getChangeDate()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (priceChange.getPreviousPrice() != null) {
+            Double previousPriceDouble = Double.valueOf(priceChange.getPreviousPrice().toString());
+            if (previousPriceDouble > 10.0) {
+                Integer previousPriceInteger = previousPriceDouble.intValue();
+                holder.PreviousPriceTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, previousPriceInteger));
+            }
+            else {
+                holder.PreviousPriceTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_float, previousPriceDouble));
+            }
+        }
+        else
+        {
+            holder.PreviousPriceTextView.setText("-");
+        }
+        if (priceChange.getIsRise() != null) {
+            if ((Boolean)priceChange.getIsRise())
+                holder.PriceArrowImageView.setImageResource(R.drawable.ic_arrow_up_main_green);
+            else
+                holder.PriceArrowImageView.setImageResource(R.drawable.ic_arrow_down_red);
         }
         else {
-            holder.PreviousPriceTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_float, priceChange.PreviousPrice));
+            holder.PriceArrowImageView.setImageResource(R.drawable.ic_minus);
         }
-        if (priceChange.IsRise)
-            holder.PriceArrowImageView.setImageResource(R.drawable.ic_arrow_up_main_green);
-        else
-            holder.PriceArrowImageView.setImageResource(R.drawable.ic_arrow_down_red);
-        holder.PriceChangeClubImageView.setImageResource(priceChange.Club.ImageID);
-        if (priceChange.NewPrice > 1.0) {
-            int newPriceInteger = (int) priceChange.NewPrice;
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + priceChange.getClubURL()).into(holder.PriceChangeClubImageView);
+        Double newPriceDouble = Double.valueOf(priceChange.getNewPrice().toString());
+        if (newPriceDouble > 10.0) {
+            Integer newPriceInteger = newPriceDouble.intValue();
             holder.NewPriceTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, newPriceInteger));
         }
         else {
-            holder.NewPriceTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_float, priceChange.NewPrice));
+            holder.NewPriceTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_float, priceChange.getNewPrice()));
         }
     }
 

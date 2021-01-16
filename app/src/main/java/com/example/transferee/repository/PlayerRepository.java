@@ -7,6 +7,9 @@ import com.example.transferee.web.RetrofitService;
 import com.example.transferee.web.WebService;
 import com.example.transferee.web.pojo.FoundPlayersPOJO;
 import com.example.transferee.web.pojo.LatestTransfersPOJO;
+import com.example.transferee.web.pojo.PlayerMarketPOJO;
+import com.example.transferee.web.pojo.PlayerOverviewPOJO;
+import com.example.transferee.web.pojo.PlayerPOJO;
 import com.example.transferee.web.pojo.TopRatedPlayersPOJO;
 import com.example.transferee.web.pojo.response.FoundPlayersResponse;
 import com.example.transferee.web.pojo.response.LatestTransfersResponse;
@@ -101,6 +104,57 @@ public class PlayerRepository {
 
             @Override
             public void onFailure(Call<FoundPlayersResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getPlayerByIdFromServer(CallbackCustom<PlayerPOJO> callback, int id) {
+        WebService.getPlayerById(id).enqueue(new Callback<PlayerPOJO>() {
+            @Override
+            public void onResponse(Call<PlayerPOJO> call, Response<PlayerPOJO> response) {
+                if (response.isSuccessful()) {
+                    PlayerPOJO playerPOJO = response.body();
+                    callback.next(playerPOJO);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PlayerPOJO> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getPlayerOverviewByIdFromServer(CallbackCustom<PlayerOverviewPOJO> callback, int id) {
+        WebService.getPlayerOverviewById(id).enqueue(new Callback<PlayerOverviewPOJO>() {
+            @Override
+            public void onResponse(Call<PlayerOverviewPOJO> call, Response<PlayerOverviewPOJO> response) {
+                if (response.isSuccessful()) {
+                    PlayerOverviewPOJO playerOverviewPOJO = response.body();
+                    callback.next(playerOverviewPOJO);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PlayerOverviewPOJO> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getPlayerMarketByIdFromServer(CallbackCustom<PlayerMarketPOJO> callback, int id) {
+        WebService.getPlayerMarketById(id).enqueue(new Callback<PlayerMarketPOJO>() {
+            @Override
+            public void onResponse(Call<PlayerMarketPOJO> call, Response<PlayerMarketPOJO> response) {
+                if (response.isSuccessful()) {
+                    PlayerMarketPOJO playerMarketPOJO = response.body();
+                    callback.next(playerMarketPOJO);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PlayerMarketPOJO> call, Throwable t) {
 
             }
         });

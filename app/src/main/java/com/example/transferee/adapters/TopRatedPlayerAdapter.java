@@ -2,6 +2,7 @@ package com.example.transferee.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,9 @@ public class TopRatedPlayerAdapter extends RecyclerView.Adapter<TopRatedPlayerAd
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent playerActivityIntent = new Intent(v.getContext(), PlayerActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("Player_ID", TopRatedPlayersPOJO.get(getAdapterPosition()).getPlayerID());
+                    Intent playerActivityIntent = new Intent(v.getContext(), PlayerActivity.class).putExtras(bundle);
                     v.getContext().startActivity(playerActivityIntent);
                 }
             });
