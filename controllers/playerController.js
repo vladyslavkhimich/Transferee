@@ -52,7 +52,19 @@ exports.findLatestTransfers = (req, res) => {
                  transfer.setDataValue('Contract', closestAfterPlayerContract);
                  transfersProcessedCount++;
                  if (transfersProcessedCount === transfers.length) {
-                     let transfersResponse = transfers.map((transfer) => ({Player_ID: transfer.Player.Player_ID, Name: transfer.Player.Name, Image_URL: ImageHelper.getPlayerImagePath(transfer.Player.Image), Date_Of_Transfer: transfer.Date_Of_Transfer, Departure_Club_Name: transfer.Departure_Club.Name, Departure_Club_URL: ImageHelper.getClubImagePath(transfer.Departure_Club.Logo), Joining_Club_Name: transfer.Joining_Club.Name, Joining_Club_URL: ImageHelper.getClubImagePath(transfer.Joining_Club.Logo), Transfer_Price: transfer.Transfer_Price, Contract_Start_Date: transfer.getDataValue('Contract') != null ? transfer.getDataValue('Contract').Start_Date : null, Contract_Finish_Date: transfer.getDataValue('Contract') != null ? transfer.getDataValue('Contract').Finish_Date : null, Market_Value: transfer.Market_Value }));
+                     let transfersResponse = transfers.map((transfer) => ({
+                         Player_ID: transfer.Player.Player_ID,
+                         Name: transfer.Player.Name,
+                         Image_URL: ImageHelper.getPlayerImagePath(transfer.Player.Image),
+                         Date_Of_Transfer: transfer.Date_Of_Transfer,
+                         Departure_Club_Name: transfer.Departure_Club.Name,
+                         Departure_Club_URL: ImageHelper.getClubImagePath(transfer.Departure_Club.Logo),
+                         Joining_Club_Name: transfer.Joining_Club.Name,
+                         Joining_Club_URL: ImageHelper.getClubImagePath(transfer.Joining_Club.Logo),
+                         Transfer_Price: transfer.Transfer_Price,
+                         Contract_Start_Date: transfer.getDataValue('Contract') != null ? transfer.getDataValue('Contract').Start_Date : null,
+                         Contract_Finish_Date: transfer.getDataValue('Contract') != null ? transfer.getDataValue('Contract').Finish_Date : null,
+                         Market_Value: transfer.Market_Value }));
                      let latestTransfersJSON = {latestTransfersPOJO: JSON.parse(JSON.stringify(transfersResponse))};
                      res.json(latestTransfersJSON);
                  }
@@ -61,7 +73,19 @@ exports.findLatestTransfers = (req, res) => {
                    transfersProcessedCount++;
                    transfer.setDataValue('Contract', null);
                    if (transfersProcessedCount === transfers.length) {
-                       let transfersResponse = transfers.map((transfer) => ({Player_ID: transfer.Player.Player_ID, Name: transfer.Player.Name, Image_URL: ImageHelper.getPlayerImagePath(transfer.Player.Image), Date_Of_Transfer: transfer.Date_Of_Transfer, Departure_Club_Name: transfer.Departure_Club.Name, Departure_Club_URL: ImageHelper.getClubImagePath(transfer.Departure_Club.Logo), Joining_Club_Name: transfer.Joining_Club.Name, Joining_Club_URL: ImageHelper.getClubImagePath(transfer.Joining_Club.Logo), Transfer_Price: transfer.Transfer_Price, Contract_Start_Date: transfer.getDataValue('Contract') != null ? transfer.getDataValue('Contract').Start_Date : null, Contract_Finish_Date: transfer.getDataValue('Contract') != null ? transfer.getDataValue('Contract').Finish_Date : null, Market_Value: transfer.Market_Value }));
+                       let transfersResponse = transfers.map((transfer) => ({
+                           Player_ID: transfer.Player.Player_ID,
+                           Name: transfer.Player.Name,
+                           Image_URL: ImageHelper.getPlayerImagePath(transfer.Player.Image),
+                           Date_Of_Transfer: transfer.Date_Of_Transfer,
+                           Departure_Club_Name: transfer.Departure_Club.Name,
+                           Departure_Club_URL: ImageHelper.getClubImagePath(transfer.Departure_Club.Logo),
+                           Joining_Club_Name: transfer.Joining_Club.Name,
+                           Joining_Club_URL: ImageHelper.getClubImagePath(transfer.Joining_Club.Logo),
+                           Transfer_Price: transfer.Transfer_Price,
+                           Contract_Start_Date: transfer.getDataValue('Contract') != null ? transfer.getDataValue('Contract').Start_Date : null,
+                           Contract_Finish_Date: transfer.getDataValue('Contract') != null ? transfer.getDataValue('Contract').Finish_Date : null,
+                           Market_Value: transfer.Market_Value }));
                        let latestTransfersJSON = {latestTransfersPOJO: JSON.parse(JSON.stringify(transfersResponse))};
                        res.json(latestTransfersJSON);
                    }
@@ -98,7 +122,7 @@ exports.findPlayersByName = (req, res) => {
 
 exports.findPlayerByID = (req, res, id) => {
     db.Player.findByPk(id, {include: [{model: db.Club}], order: [[db.Club, db.Former_Club, 'Date_Of_Joining', 'DESC']]}).then(player => {
-        let playerResponse = { Name: player.Name, Image_URL: ImageHelper.getPlayerImagePath(player.Image), Club_Name: player.Clubs[0].Name, Club_URL: ImageHelper.getClubImagePath(player.Clubs[0].Logo) };
+        let playerResponse = {Player_ID: id, Name: player.Name, Image_URL: ImageHelper.getPlayerImagePath(player.Image), Club_Name: player.Clubs[0].Name, Club_URL: ImageHelper.getClubImagePath(player.Clubs[0].Logo) };
         res.json(JSON.parse(JSON.stringify(playerResponse)));
     });
 };
@@ -180,6 +204,63 @@ exports.findPlayerMarketByID = (req, res, id) => {
                res.json(JSON.parse(JSON.stringify(playerResponse)));
            });
        });
+    });
+};
+
+exports.findPlayerTransfersByID = (req, res, id) => {
+    db.Transfer.findAll({where: {Player_ID: id}, include: [{model: db.Club, as: 'Departure_Club'}, {model: db.Club, as: 'Joining_Club'}], order: [['Date_Of_Transfer', 'DESC']]}).then(transfers => {
+        let transfersProcessedCount = 0;
+        transfers.forEach(transfer => {
+           if (transfer.Market_Value == null) {
+               db.Player.findByPk(id, {include: {model: db.Player_Price_Change}, order: [[db.Player_Price_Change, 'Change_Date', 'DESC']]}).then(player => {
+                   let closestPriceChange = player.Player_Price_Changes.reduce((a, b) => new Date(transfer.Date_Of_Transfer) - new Date(a.Change_Date) < new Date(transfer.Date_Of_Transfer) - new Date(b.Change_Date) ? a : b);
+                   transfer.Market_Value = closestPriceChange.Market_Price;
+               });
+           }
+            db.Player.findByPk(id, {include: {model: db.Player_Contract}, order: [[db.Player_Contract, 'Start_Date', 'DESC']]}).then(player => {
+                if (player.Player_Contracts.length > 0) {
+                    let closestAfterPlayerContract = player.Player_Contracts.reduce((a, b) => {
+                        let adiff = new Date(a.Start_Date) - new Date(transfer.Date_Of_Transfer);
+                        return adiff > 0 && adiff > new Date(b.Start_Date) - new Date(transfer.Date_Of_Transfer) ? a : b
+                    });
+                    transfer.setDataValue('Contract', closestAfterPlayerContract);
+                    transfersProcessedCount++;
+                    if (transfersProcessedCount === transfers.length) {
+                        let transfersResponse = transfers.map((transfer) => ({
+                            Date_Of_Transfer: transfer.Date_Of_Transfer,
+                            Departure_Club_Name: transfer.Departure_Club.Name,
+                            Departure_Club_URL: ImageHelper.getClubImagePath(transfer.Departure_Club.Logo),
+                            Joining_Club_Name: transfer.Joining_Club.Name,
+                            Joining_Club_URL: ImageHelper.getClubImagePath(transfer.Joining_Club.Logo),
+                            Transfer_Price: transfer.Transfer_Price,
+                            Contract_Start_Date: transfer.getDataValue('Contract') != null ? transfer.getDataValue('Contract').Start_Date : null,
+                            Contract_Finish_Date: transfer.getDataValue('Contract') != null ? transfer.getDataValue('Contract').Finish_Date : null,
+                            Market_Value: transfer.Market_Value
+                        }));
+                        let playerTransfersJSON = {playerTransfersPOJO: JSON.parse(JSON.stringify(transfersResponse))};
+                        res.json(playerTransfersJSON);
+                    }
+                } else {
+                    transfersProcessedCount++;
+                    transfer.setDataValue('Contract', null);
+                    if (transfersProcessedCount === transfers.length) {
+                        let transfersResponse = transfers.map((transfer) => ({
+                            Date_Of_Transfer: transfer.Date_Of_Transfer,
+                            Departure_Club_Name: transfer.Departure_Club.Name,
+                            Departure_Club_URL: ImageHelper.getClubImagePath(transfer.Departure_Club.Logo),
+                            Joining_Club_Name: transfer.Joining_Club.Name,
+                            Joining_Club_URL: ImageHelper.getClubImagePath(transfer.Joining_Club.Logo),
+                            Transfer_Price: transfer.Transfer_Price,
+                            Contract_Start_Date: transfer.getDataValue('Contract') != null ? transfer.getDataValue('Contract').Start_Date : null,
+                            Contract_Finish_Date: transfer.getDataValue('Contract') != null ? transfer.getDataValue('Contract').Finish_Date : null,
+                            Market_Value: transfer.Market_Value
+                        }));
+                        let playerTransfersJSON = {playerTransfersPOJO: JSON.parse(JSON.stringify(transfersResponse))};
+                        res.json(playerTransfersJSON);
+                    }
+                }
+            });
+        });
     });
 };
 
