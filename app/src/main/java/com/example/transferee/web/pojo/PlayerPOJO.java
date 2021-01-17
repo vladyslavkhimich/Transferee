@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class PlayerPOJO {
 
+        @SerializedName("Player_ID")
+        @Expose
+        private Integer playerID;
         @SerializedName("Name")
         @Expose
         private String name;
@@ -32,13 +35,22 @@ public class PlayerPOJO {
          * @param name
          * @param clubURL
          */
-        public PlayerPOJO(String name, String imageURL, String clubName, String clubURL) {
+        public PlayerPOJO(Integer playerID, String name, String imageURL, String clubName, String clubURL) {
             super();
+            this.playerID = playerID;
             this.name = name;
             this.imageURL = imageURL;
             this.clubName = clubName;
             this.clubURL = clubURL;
         }
+
+        public Integer getPlayerID() {
+        return playerID;
+    }
+
+        public void setPlayerID(Integer playerID) {
+        this.playerID = playerID;
+    }
 
         public String getName() {
             return name;

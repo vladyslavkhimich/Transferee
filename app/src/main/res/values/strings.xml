@@ -55,6 +55,7 @@
     <string name="no_players_found">No players found</string>
     <string name="player_height">%1$dcm</string>
     <string name="player_age">%1$d years</string>
+    <string name="no_favorites_players">You don\'t have favorite players</string>
 
     <!--Test strings-->
     <string name="bruno">Bruno Fernandes</string>

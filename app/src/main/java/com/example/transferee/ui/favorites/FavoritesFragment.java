@@ -17,7 +17,10 @@ import android.view.ViewGroup;
 
 import com.example.transferee.R;
 import com.example.transferee.adapters.FavoritePlayerAdapter;
+import com.example.transferee.helpers.FileHelper;
+import com.example.transferee.helpers.RecyclerViewEmptySupport;
 import com.example.transferee.models.FavoritePlayer;
+import com.example.transferee.web.pojo.PlayerPOJO;
 
 import java.util.ArrayList;
 
@@ -25,7 +28,7 @@ public class FavoritesFragment extends Fragment {
 
     private FavoritesViewModel favoritesViewModel;
     public FavoritePlayerAdapter FavoritePlayerAdapter;
-    public RecyclerView FavoritesRecyclerView;
+    public RecyclerViewEmptySupport FavoritesRecyclerView;
 
     public static FavoritesFragment newInstance() {
         return new FavoritesFragment();
@@ -34,26 +37,25 @@ public class FavoritesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        favoritesViewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
         View root =  inflater.inflate(R.layout.fragment_favorites, container, false);
         FavoritePlayerAdapter = new FavoritePlayerAdapter();
-        favoritesViewModel.getFavoritePlayers().observe(getViewLifecycleOwner(), new Observer<ArrayList<FavoritePlayer>>() {
+        favoritesViewModel.getFavoritePlayers().observe(getViewLifecycleOwner(), new Observer<ArrayList<PlayerPOJO>>() {
             @Override
-            public void onChanged(ArrayList<FavoritePlayer> favoritePlayers) {
+            public void onChanged(ArrayList<PlayerPOJO> favoritePlayers) {
                 FavoritePlayerAdapter.setFavoritePlayers(favoritePlayers);
             }
         });
-        FavoritesRecyclerView = (RecyclerView) root.findViewById(R.id.favoritesRecyclerView);
+        FavoritesRecyclerView = (RecyclerViewEmptySupport) root.findViewById(R.id.favoritesRecyclerView);
         FavoritesRecyclerView.setAdapter(FavoritePlayerAdapter);
         FavoritesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        FavoritesRecyclerView.setEmptyView(root.findViewById(R.id.favoritePlayersEmpty));
         return root;
     }
 
-    /*@Override*/
-    /*public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
-        // TODO: Use the ViewModel
-    }*/
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        favoritesViewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
+        favoritesViewModel.setFavoritePlayersVoid(FileHelper.returnStoredPlayersIds(getContext()));
+    }
 }

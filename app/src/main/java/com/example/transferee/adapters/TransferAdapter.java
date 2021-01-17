@@ -1,6 +1,8 @@
 package com.example.transferee.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.transferee.PlayerActivity;
 import com.example.transferee.R;
 import com.example.transferee.helpers.DateHelper;
 import com.example.transferee.helpers.DoubleHelper;
@@ -57,7 +60,7 @@ public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.Transf
         Picasso.get().load(RetrofitService.getBaseURLShorten() + latestTransferPOJO.getJoiningClubURL()).into(holder.JoiningClubImageView);
         holder.JoiningClubTextView.setText(latestTransferPOJO.getJoiningClubName());
         if (latestTransferPOJO.getTransferPrice() > 10.0) {
-            int feeInteger = (int) latestTransferPOJO.getTransferPrice();
+            Integer feeInteger = latestTransferPOJO.getTransferPrice().intValue();
             holder.FeeTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, feeInteger));
         }
         else {
@@ -69,7 +72,7 @@ public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.Transf
             e.printStackTrace();
         }
         if (latestTransferPOJO.getMarketValue() > 10.0) {
-            int marketValueInteger = (int) latestTransferPOJO.getMarketValue();
+            Integer marketValueInteger = latestTransferPOJO.getMarketValue().intValue();
             holder.MarketValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, marketValueInteger));
         }
         else
@@ -95,7 +98,15 @@ public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.Transf
 
         public TransferViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("Player_ID", LatestTransfersPOJO.get(getAdapterPosition()).getPlayerID());
+                    Intent playerActivityIntent = new Intent(v.getContext(), PlayerActivity.class).putExtras(bundle);
+                    v.getContext().startActivity(playerActivityIntent);
+                }
+            });
             TransferPlayerImageView = (ImageView) itemView.findViewById(R.id.transferPlayerImageView);
             TransferDateTextView = (TextView) itemView.findViewById(R.id.playerTransferDateTextView);
             TransferPlayerName = (TextView) itemView.findViewById(R.id.transferPlayerName);

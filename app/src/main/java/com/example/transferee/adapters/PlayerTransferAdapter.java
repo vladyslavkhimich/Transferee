@@ -14,17 +14,21 @@ import com.example.transferee.R;
 import com.example.transferee.helpers.DateHelper;
 import com.example.transferee.helpers.DoubleHelper;
 import com.example.transferee.models.PlayerTransfer;
+import com.example.transferee.web.RetrofitService;
+import com.example.transferee.web.pojo.PlayerTransfersPOJO;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class PlayerTransferAdapter extends RecyclerView.Adapter<PlayerTransferAdapter.PlayerTransferViewHolder> {
-    private ArrayList<PlayerTransfer> PlayerTransfers;
+    private ArrayList<PlayerTransfersPOJO> PlayerTransfers = new ArrayList<>();
     public PlayerTransferAdapter() {
 
     }
 
-    public void setPlayerTransfers(ArrayList<PlayerTransfer> playerTransfers) {
+    public void setPlayerTransfers(ArrayList<PlayerTransfersPOJO> playerTransfers) {
         PlayerTransfers = playerTransfers;
         notifyDataSetChanged();
     }
@@ -42,26 +46,34 @@ public class PlayerTransferAdapter extends RecyclerView.Adapter<PlayerTransferAd
 
     @Override
     public void onBindViewHolder(@NonNull PlayerTransferViewHolder holder, int position) {
-        PlayerTransfer playerTransfer = PlayerTransfers.get(position);
-        //holder.PlayerTransferDateTextView.setText(DateHelper.getStringDateWithDay(playerTransfer.TransferDate));
-        holder.PlayerTransferDepartureClubTextView.setText(playerTransfer.DepartureClub.ClubName);
-        holder.PlayerTransferDepartureClubImageView.setImageResource(playerTransfer.DepartureClub.ImageID);
-        holder.PlayerTransferJoiningClubImageView.setImageResource(playerTransfer.JoiningClub.ImageID);
-        holder.PlayerTransferJoiningClubTextView.setText(playerTransfer.JoiningClub.ClubName);
-        if (playerTransfer.Fee > 10.0) {
-            int feeInteger = (int) playerTransfer.Fee;
+        PlayerTransfersPOJO playerTransfer = PlayerTransfers.get(position);
+        try {
+            holder.PlayerTransferDateTextView.setText(DateHelper.getStringDateWithDay(playerTransfer.getDateOfTransfer()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.PlayerTransferDepartureClubTextView.setText(playerTransfer.getDepartureClubName());
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + playerTransfer.getDepartureClubURL()).into(holder.PlayerTransferDepartureClubImageView);
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + playerTransfer.getJoiningClubURL()).into(holder.PlayerTransferJoiningClubImageView);
+        holder.PlayerTransferJoiningClubTextView.setText(playerTransfer.getJoiningClubName());
+        if (playerTransfer.getTransferPrice() > 10.0) {
+            Integer feeInteger = playerTransfer.getTransferPrice().intValue();
             holder.PlayerTransferFeeTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, feeInteger));
         }
         else {
-            holder.PlayerTransferFeeTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_string, DoubleHelper.formatDouble(playerTransfer.Fee)));
+            holder.PlayerTransferFeeTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_string, DoubleHelper.formatDouble(playerTransfer.getTransferPrice())));
         }
-        //holder.PlayerTransferContractTextView.setText(holder.itemView.getContext().getString(R.string.contract_date, DateHelper.getStringDate(playerTransfer.StartContractDate), DateHelper.getStringDate(playerTransfer.EndContractDate)));
-        if (playerTransfer.MarketValue > 10.0) {
-            int marketValueInteger = (int) playerTransfer.MarketValue;
+        try {
+            holder.PlayerTransferContractTextView.setText(holder.itemView.getContext().getString(R.string.contract_date, DateHelper.getStringDate(playerTransfer.getContractStartDate()), DateHelper.getStringDate(playerTransfer.getContractFinishDate())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (playerTransfer.getMarketValue() > 10.0) {
+            Integer marketValueInteger = playerTransfer.getMarketValue().intValue();
             holder.PlayerTransferMarketValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_integer, marketValueInteger));
         }
         else
-            holder.PlayerTransferMarketValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_string, DoubleHelper.formatDouble(playerTransfer.MarketValue)));
+            holder.PlayerTransferMarketValueTextView.setText(holder.itemView.getContext().getString(R.string.market_value_formatted_string, DoubleHelper.formatDouble(playerTransfer.getMarketValue())));
     }
 
     @Override

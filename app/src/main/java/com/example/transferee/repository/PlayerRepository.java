@@ -13,6 +13,7 @@ import com.example.transferee.web.pojo.PlayerPOJO;
 import com.example.transferee.web.pojo.TopRatedPlayersPOJO;
 import com.example.transferee.web.pojo.response.FoundPlayersResponse;
 import com.example.transferee.web.pojo.response.LatestTransfersResponse;
+import com.example.transferee.web.pojo.response.PlayerCareerResponse;
 import com.example.transferee.web.pojo.response.TopMarketPlayersResponse;
 import com.example.transferee.web.pojo.TopMarketValuePlayersPOJO;
 import com.example.transferee.web.pojo.response.TopRatedPlayersResponse;
@@ -79,7 +80,7 @@ public class PlayerRepository {
             public void onResponse(Call<LatestTransfersResponse> call, Response<LatestTransfersResponse> response) {
                 if (response.isSuccessful()) {
                     LatestTransfersResponse latestTransfersResponse = response.body();
-                    callback.next(new ArrayList<>(latestTransfersResponse != null ? latestTransfersResponse.getLatestTransfersPOJO() : null));
+                    callback.next(latestTransfersResponse != null ? latestTransfersResponse.getLatestTransfersPOJO() : null);
                 }
             }
 
@@ -155,6 +156,23 @@ public class PlayerRepository {
 
             @Override
             public void onFailure(Call<PlayerMarketPOJO> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getPlayerCareerByIdFromServer(CallbackCustom<PlayerCareerResponse> callback, int id) {
+        WebService.getPlayerCareerById(id).enqueue(new Callback<PlayerCareerResponse>() {
+            @Override
+            public void onResponse(Call<PlayerCareerResponse> call, Response<PlayerCareerResponse> response) {
+                if (response.isSuccessful()) {
+                    PlayerCareerResponse playerCareerResponse = response.body();
+                    callback.next(playerCareerResponse);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PlayerCareerResponse> call, Throwable t) {
 
             }
         });

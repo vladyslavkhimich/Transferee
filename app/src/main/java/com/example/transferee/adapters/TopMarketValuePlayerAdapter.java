@@ -1,6 +1,8 @@
 package com.example.transferee.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.transferee.PlayerActivity;
 import com.example.transferee.R;
 import com.example.transferee.models.TopMarketValuePlayer;
 import com.example.transferee.web.RetrofitService;
@@ -71,7 +74,15 @@ public class TopMarketValuePlayerAdapter extends RecyclerView.Adapter<TopMarketV
 
         public TopMarketValuePlayerViewHolder(View itemView) {
             super(itemView);
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("Player_ID", TopMarketValuePlayers.get(getAdapterPosition()).getPlayerID());
+                    Intent playerActivityIntent = new Intent(v.getContext(), PlayerActivity.class).putExtras(bundle);
+                    v.getContext().startActivity(playerActivityIntent);
+                }
+            });
             TopMarketValuePlayerImageView = (ImageView) itemView.findViewById(R.id.topMarketValuePlayerImageView);
             TopMarketValuePlayerNameTextView = (TextView) itemView.findViewById(R.id.topMarketValuePlayerNameTextView);
             TopMarketValuePlayerClubImageView = (ImageView) itemView.findViewById(R.id.topMarketValuePlayerClubImageView);

@@ -22,12 +22,23 @@
             android:text="@string/your_favorites"
             style="@style/TitlesStyle"
             />
-        <androidx.recyclerview.widget.RecyclerView
+        <com.example.transferee.helpers.RecyclerViewEmptySupport
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/favoritesRecyclerView"
             app:layout_constraintTop_toBottomOf="@id/favoritesTitle"
             android:layout_marginTop="15dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/favoritesRecyclerView"
+            style="@style/GrayRegularTextStyle"
+            android:text="@string/no_favorites_players"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:id="@+id/favoritePlayersEmpty"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

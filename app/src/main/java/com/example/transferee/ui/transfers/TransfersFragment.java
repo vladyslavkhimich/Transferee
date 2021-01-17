@@ -32,16 +32,16 @@ public class TransfersFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_transfers, container, false);
         TransferAdapter = new TransferAdapter();
+        TransferRecyclerView = (RecyclerViewEmptySupport) root.findViewById(R.id.latestTransfersRecyclerView);
+        TransferRecyclerView.setAdapter(TransferAdapter);
+        TransferRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        TransferRecyclerView.setEmptyView(root.findViewById(R.id.latestTransfersEmpty));
         transfersViewModel.getTransfers().observe(getViewLifecycleOwner(), new Observer<ArrayList<LatestTransfersPOJO>>() {
             @Override
             public void onChanged(ArrayList<LatestTransfersPOJO> transfers) {
                 TransferAdapter.setLatestTransfersPOJO(transfers);
             }
         });
-        TransferRecyclerView = (RecyclerViewEmptySupport) root.findViewById(R.id.latestTransfersRecyclerView);
-        TransferRecyclerView.setAdapter(TransferAdapter);
-        TransferRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        TransferRecyclerView.setEmptyView(root.findViewById(R.id.latestTransfersEmpty));
         return root;
     }
 

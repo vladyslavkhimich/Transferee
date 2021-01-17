@@ -3,17 +3,8 @@ package com.example.transferee.web.pojo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class LatestTransfersPOJO {
+public class PlayerTransfersPOJO {
 
-    @SerializedName("Player_ID")
-    @Expose
-    private Integer playerID;
-    @SerializedName("Name")
-    @Expose
-    private String name;
-    @SerializedName("Image_URL")
-    @Expose
-    private String imageURL;
     @SerializedName("Date_Of_Transfer")
     @Expose
     private String dateOfTransfer;
@@ -46,7 +37,7 @@ public class LatestTransfersPOJO {
      * No args constructor for use in serialization
      *
      */
-    public LatestTransfersPOJO() {
+    public PlayerTransfersPOJO() {
     }
 
     /**
@@ -57,18 +48,12 @@ public class LatestTransfersPOJO {
      * @param joiningClubName
      * @param contractStartDate
      * @param contractFinishDate
-     * @param imageURL
      * @param departureClubURL
-     * @param name
      * @param marketValue
-     * @param playerID
      * @param transferPrice
      */
-    public LatestTransfersPOJO(Integer playerID, String name, String imageURL, String dateOfTransfer, String departureClubName, String departureClubURL, String joiningClubName, String joiningClubURL, Double transferPrice, String contractStartDate, String contractFinishDate, Double marketValue) {
+    public PlayerTransfersPOJO(String dateOfTransfer, String departureClubName, String departureClubURL, String joiningClubName, String joiningClubURL, Double transferPrice, String contractStartDate, String contractFinishDate, Double marketValue) {
         super();
-        this.playerID = playerID;
-        this.name = name;
-        this.imageURL = imageURL;
         this.dateOfTransfer = dateOfTransfer;
         this.departureClubName = departureClubName;
         this.departureClubURL = departureClubURL;
@@ -78,30 +63,6 @@ public class LatestTransfersPOJO {
         this.contractStartDate = contractStartDate;
         this.contractFinishDate = contractFinishDate;
         this.marketValue = marketValue;
-    }
-
-    public Integer getPlayerID() {
-        return playerID;
-    }
-
-    public void setPlayerID(Integer playerID) {
-        this.playerID = playerID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
     }
 
     public String getDateOfTransfer() {

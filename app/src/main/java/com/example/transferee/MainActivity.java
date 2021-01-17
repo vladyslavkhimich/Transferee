@@ -3,6 +3,7 @@ package com.example.transferee;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.transferee.helpers.FileHelper;
 import com.example.transferee.ui.favorites.FavoritesFragment;
 import com.example.transferee.ui.favorites.FavoritesViewModel;
 import com.example.transferee.ui.home.HomeFragment;
@@ -18,6 +19,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mainToolbar);
         NavigationUI.setupWithNavController(navView, navController);
+        try {
+            FileHelper.createPlayerIdsFileIfNotExist(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
