@@ -18,5 +18,8 @@
   playerRouter.get('/gettransfers/:id', (request, response) => {
      playerController.findPlayerTransfersByID(request, response, request.params.id);
   });
+  playerRouter.get('/getstats/:id', (request, response) => {
+      playerController.findPlayerStatsByID(request, response, request.params.id);
+  });
 
   module.exports = playerRouter;

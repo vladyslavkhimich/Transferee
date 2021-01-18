@@ -33,8 +33,8 @@ module.exports = (sequelize, DataTypes) => {
          player.hasMany(models.Match_Card, {foreignKey: 'Player_ID'});
          player.hasMany(models.Main_Squad_Player, {foreignKey: 'Player_ID', sourceKey: 'Player_ID'});
          player.hasMany(models.Match_Player_Rating, {foreignKey: 'Player_ID', sourceKey: 'Player_ID'});
-         player.hasMany(models.Substitution, {foreignKey: 'Substituted_Player_ID', sourceKey: 'Player_ID'});
-         player.hasMany(models.Substitution, {foreignKey: 'Substitute_Player_ID', sourceKey: 'Player_ID'});
+         player.hasMany(models.Substitution, {foreignKey: 'Substituted_Player_ID', as: 'Substituted_Player', sourceKey: 'Player_ID'});
+         player.hasMany(models.Substitution, {foreignKey: 'Substitute_Player_ID', as: 'Substitute_Player', sourceKey: 'Player_ID'});
          player.belongsTo(models.Country, {foreignKey: 'Country_ID'});
      };
     return player;
