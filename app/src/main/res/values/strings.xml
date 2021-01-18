@@ -56,6 +56,8 @@
     <string name="player_height">%1$dcm</string>
     <string name="player_age">%1$d years</string>
     <string name="no_favorites_players">You don\'t have favorite players</string>
+    <string name="dash">-</string>
+    <string name="no_matches_to_display">No matches to display</string>
 
     <!--Test strings-->
     <string name="bruno">Bruno Fernandes</string>

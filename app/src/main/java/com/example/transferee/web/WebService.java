@@ -8,6 +8,7 @@ import com.example.transferee.web.pojo.TopRatedPlayersPOJO;
 import com.example.transferee.web.pojo.response.FoundPlayersResponse;
 import com.example.transferee.web.pojo.response.LatestTransfersResponse;
 import com.example.transferee.web.pojo.response.PlayerCareerResponse;
+import com.example.transferee.web.pojo.response.PlayerStatsResponse;
 import com.example.transferee.web.pojo.response.TopMarketPlayersResponse;
 import com.example.transferee.web.pojo.response.TopRatedPlayersResponse;
 
@@ -34,4 +35,6 @@ public interface WebService {
     Call<PlayerMarketPOJO> getPlayerMarketById(@Path("id") int id);
     @GET("player/gettransfers/{id}")
     Call<PlayerCareerResponse> getPlayerCareerById(@Path("id") int id);
+    @GET("player/getstats/{id}")
+    Call<PlayerStatsResponse> getPlayerStatsById(@Path("id") int id);
 }

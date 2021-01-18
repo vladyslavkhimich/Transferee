@@ -13,19 +13,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.transferee.R;
 import com.example.transferee.helpers.DateHelper;
+import com.example.transferee.helpers.DoubleHelper;
 import com.example.transferee.helpers.StringHelper;
 import com.example.transferee.models.Match;
+import com.example.transferee.web.RetrofitService;
+import com.example.transferee.web.pojo.MatchesPOJO;
+import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHolder>{
-    private ArrayList<Match> Matches;
+    private ArrayList<MatchesPOJO> Matches = new ArrayList<>();
     Context Context;
     public MatchAdapter() {
 
     }
 
-    public void setMatches(ArrayList<Match> matches) {
+    public void setMatches(ArrayList<MatchesPOJO> matches) {
         Matches = matches;
         notifyDataSetChanged();
     }
@@ -43,22 +48,27 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MatchViewHolder holder, int position) {
-        Match match = Matches.get(position);
+        MatchesPOJO match = Matches.get(position);
 
-        //holder.MatchDateTextView.setText(DateHelper.getStringDateWithDay(match.MatchDate));
-        holder.MatchClubImageView.setImageResource(match.ClubAgainst.ImageID);
-        holder.MatchClubTextView.setText(match.ClubAgainst.ClubName);
-        holder.MatchScoreTextView.setText(match.MatchScore);
-        if (match.IsWin)
+        try {
+            holder.MatchDateTextView.setText(DateHelper.getStringDateWithDay(match.getMatchDate()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Picasso.get().load(RetrofitService.getBaseURLShorten() + match.getClubURL()).into(holder.MatchClubImageView);
+        holder.MatchClubTextView.setText(match.getClubName());
+        holder.MatchScoreTextView.setText(match.getMatchScore());
+        if (match.getIsWin())
             holder.MatchScoreTextView.setTextColor(ContextCompat.getColor(Context, R.color.yellow_green));
-        else if (match.IsLoss)
+        else if (match.getIsLoss())
             holder.MatchScoreTextView.setTextColor(ContextCompat.getColor(Context, R.color.red));
-        holder.MatchPlayerGoalsTextView.setText(StringHelper.getDashIfNumberIsZero(match.PlayerGoals));
-        holder.MatchPlayerAssistsTextView.setText(StringHelper.getDashIfNumberIsZero(match.PlayerAssists));
-        holder.MatchPlayerPositionTextView.setText(match.PlayerPosition);
-        holder.MatchPlayerYellowCardTextView.setText(StringHelper.getNumberWithApostropheIfValueIsNotZero(match.YellowCardMinute));
-        holder.MatchPlayerRedCardTextView.setText(StringHelper.getNumberWithApostropheIfValueIsNotZero(match.RedCardMinute));
-        holder.MatchPlayerMinutesPlayedTextView.setText(StringHelper.getNumberWithApostropheIfValueIsNotZero(match.MinutesPlayed));
+        holder.MatchPlayerGoalsTextView.setText(StringHelper.getDashIfNumberIsZero(match.getPlayerGoals()));
+        holder.MatchPlayerAssistsTextView.setText(StringHelper.getDashIfNumberIsZero(match.getPlayerAssists()));
+        holder.MatchPlayerPositionTextView.setText(StringHelper.getDashIfStringIsNull(match.getMatchPosition()));
+        holder.MatchPlayerYellowCardTextView.setText(StringHelper.getNumberWithApostropheIfValueIsNotZero(match.getYellowCard()));
+        holder.MatchPlayerRedCardTextView.setText(StringHelper.getNumberWithApostropheIfValueIsNotZero(match.getRedCard()));
+        holder.MatchPlayerMinutesPlayedTextView.setText(StringHelper.getNumberWithApostropheIfValueIsNotZero(match.getMinutesPlayed()));
+        holder.MatchPlayerRatingTextView.setText(DoubleHelper.getDashIfNumberIsNullOrZero(match.getPlayerRating()));
     }
 
     @Override

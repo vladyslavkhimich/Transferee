@@ -1,5 +1,6 @@
 package com.example.transferee.ui.playeroverview;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -40,6 +41,7 @@ public class PlayerOverviewFragment extends Fragment {
     public TextView PlayerPrimaryPositionTextView;
     public LinearLayout OthersPositionsContainer;
     public TextView PlayerOthersPositionsTextView;
+    public ConstraintLayout PlayerPositionsContainer;
 
     public static PlayerOverviewFragment newInstance() {
         return new PlayerOverviewFragment();
@@ -60,6 +62,7 @@ public class PlayerOverviewFragment extends Fragment {
         PlayerPrimaryPositionTextView = (TextView) root.findViewById(R.id.playerPrimaryPositionTextView);
         OthersPositionsContainer = (LinearLayout) root.findViewById(R.id.othersPositionsContainer);
         PlayerOthersPositionsTextView = (TextView) root.findViewById(R.id.playerOthersPositionsTextView);
+        PlayerPositionsContainer = (ConstraintLayout) root.findViewById(R.id.playerPositionsContainer);
         playerOverviewViewModel.getPlayerOverview().observe(getViewLifecycleOwner(), new Observer<PlayerOverviewPOJO>() {
             @Override
             public void onChanged(PlayerOverviewPOJO playerOverviewPOJO) {
@@ -93,22 +96,28 @@ public class PlayerOverviewFragment extends Fragment {
             PseudonymContainer.setVisibility(View.VISIBLE);
             PlayerPseudonymTextView.setText(playerOverviewPOJO.getPseudonym());
         }
-        PlayerPrimaryPositionTextView.setText(playerOverviewPOJO.getPrimary());
-        if (playerOverviewPOJO.getOthers().size() == 0)
-            OthersPositionsContainer.setVisibility(View.GONE);
-        else {
-            OthersPositionsContainer.setVisibility(View.VISIBLE);
-            StringBuilder othersPositionsStringBuilder = new StringBuilder();
-            for (int i = 0; i < playerOverviewPOJO.getOthers().size(); i++) {
-                if (i == 0)
-                    othersPositionsStringBuilder.append(playerOverviewPOJO.getOthers().get(i));
-                else {
-                    othersPositionsStringBuilder.append(", ").append(playerOverviewPOJO.getOthers().get(i));
+        if (playerOverviewPOJO.getPrimary() != null) {
+            PlayerPositionsContainer.setVisibility(View.VISIBLE);
+            PlayerPrimaryPositionTextView.setText(playerOverviewPOJO.getPrimary());
+            if (playerOverviewPOJO.getOthers().size() == 0)
+                OthersPositionsContainer.setVisibility(View.GONE);
+            else {
+                OthersPositionsContainer.setVisibility(View.VISIBLE);
+                StringBuilder othersPositionsStringBuilder = new StringBuilder();
+                for (int i = 0; i < playerOverviewPOJO.getOthers().size(); i++) {
+                    if (i == 0)
+                        othersPositionsStringBuilder.append(playerOverviewPOJO.getOthers().get(i));
+                    else {
+                        othersPositionsStringBuilder.append(", ").append(playerOverviewPOJO.getOthers().get(i));
+                    }
                 }
+                char[] dstArray = new char[othersPositionsStringBuilder.capacity()];
+                othersPositionsStringBuilder.getChars(0, othersPositionsStringBuilder.length(), dstArray, 0);
+                PlayerOthersPositionsTextView.setText(new String(dstArray));
             }
-            char[] dstArray = new char[othersPositionsStringBuilder.capacity()];
-            othersPositionsStringBuilder.getChars(0, othersPositionsStringBuilder.length(), dstArray, 0);
-            PlayerOthersPositionsTextView.setText(new String(dstArray));
+        }
+        else {
+            PlayerPositionsContainer.setVisibility(View.GONE);
         }
     }
 }

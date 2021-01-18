@@ -202,6 +202,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/playerPositionsContainer"
                 app:layout_constraintTop_toBottomOf="@id/playerOverviewContainer"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/player_block_shape">
@@ -271,7 +272,7 @@
                             />
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                <ImageView
+                <!--<ImageView
                     android:layout_width="140dp"
                     android:layout_height="185dp"
                     android:id="@+id/playerPositionImageView"
@@ -280,7 +281,7 @@
                     app:layout_constraintTop_toBottomOf="@id/positionTitle"
                     android:src="@drawable/fieldposition"
                     android:layout_marginTop="10dp"
-                    />
+                    />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

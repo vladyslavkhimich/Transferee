@@ -49,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/lastMatchesPlayerGoalsTextView"
                         style="@style/TitlesStyle"
-                        android:text="@string/four"
+                        android:text="@string/dash"
                         android:textSize="36sp"
                         />
                     <ImageView
@@ -76,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/lastMatchesPlayerAssistsTextView"
                         style="@style/TitlesStyle"
-                        android:text="@string/four"
+                        android:text="@string/dash"
                         android:textSize="36sp"
                         />
                     <ImageView
@@ -109,7 +109,7 @@
                             android:id="@+id/lastMatchesPlayerRatingTextView"
                             style="@style/WhiteSemiBoldTextStyle"
                             android:textSize="20sp"
-                            android:text="@string/rating_mark"
+                            android:text="@string/dash"
                             />
                     </LinearLayout>
                 </LinearLayout>
@@ -123,12 +123,22 @@
                 android:text="@string/matches"
                 android:id="@+id/matchesTitle"
                 />
-            <androidx.recyclerview.widget.RecyclerView
+            <com.example.transferee.helpers.RecyclerViewEmptySupport
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/matchesTitle"
                 android:layout_marginTop="15dp"
                 android:id="@+id/playerMatchesRecyclerView"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_matches_to_display"
+                app:layout_constraintTop_toBottomOf="@id/playerMatchesRecyclerView"
+                style="@style/GrayRegularTextStyle"
+                android:textSize="22sp"
+                android:id="@+id/playerMatchesEmpty"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

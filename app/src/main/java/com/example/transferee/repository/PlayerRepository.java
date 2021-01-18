@@ -14,6 +14,7 @@ import com.example.transferee.web.pojo.TopRatedPlayersPOJO;
 import com.example.transferee.web.pojo.response.FoundPlayersResponse;
 import com.example.transferee.web.pojo.response.LatestTransfersResponse;
 import com.example.transferee.web.pojo.response.PlayerCareerResponse;
+import com.example.transferee.web.pojo.response.PlayerStatsResponse;
 import com.example.transferee.web.pojo.response.TopMarketPlayersResponse;
 import com.example.transferee.web.pojo.TopMarketValuePlayersPOJO;
 import com.example.transferee.web.pojo.response.TopRatedPlayersResponse;
@@ -173,6 +174,23 @@ public class PlayerRepository {
 
             @Override
             public void onFailure(Call<PlayerCareerResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getPlayerStatsByIdFromServer(CallbackCustom<PlayerStatsResponse> callback, int id) {
+        WebService.getPlayerStatsById(id).enqueue(new Callback<PlayerStatsResponse>() {
+            @Override
+            public void onResponse(Call<PlayerStatsResponse> call, Response<PlayerStatsResponse> response) {
+                if (response.isSuccessful()) {
+                    PlayerStatsResponse playerStatsResponse = response.body();
+                    callback.next(playerStatsResponse);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PlayerStatsResponse> call, Throwable t) {
 
             }
         });

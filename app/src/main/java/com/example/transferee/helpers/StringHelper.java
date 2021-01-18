@@ -1,13 +1,17 @@
 package com.example.transferee.helpers;
 
 public class StringHelper {
-    public static String getDashIfNumberIsZero(int number) {
+    public static String getDashIfNumberIsZero(Integer number) {
+        if (number == null)
+            return "-";
         if (number == 0)
             return "-";
         return Integer.toString(number);
     }
 
-    public static String getNumberWithApostropheIfValueIsNotZero(int number) {
+    public static String getNumberWithApostropheIfValueIsNotZero(Integer number) {
+        if (number == null)
+            return "-";
         if (number == 0)
             return "-";
         return Integer.toString(number) + "'";
@@ -24,5 +28,11 @@ public class StringHelper {
                 return number + sufixes[number % 10];
 
         }
+    }
+
+    public static String getDashIfStringIsNull(String string) {
+        if (string == null)
+            return "-";
+        return string;
     }
 }

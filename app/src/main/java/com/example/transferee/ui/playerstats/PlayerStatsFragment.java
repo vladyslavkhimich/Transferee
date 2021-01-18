@@ -14,10 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.transferee.PlayerActivity;
 import com.example.transferee.R;
 import com.example.transferee.adapters.MatchAdapter;
+import com.example.transferee.helpers.DoubleHelper;
+import com.example.transferee.helpers.RecyclerViewEmptySupport;
+import com.example.transferee.helpers.StringHelper;
 import com.example.transferee.models.Match;
+import com.example.transferee.web.pojo.response.PlayerStatsResponse;
 
 import java.util.ArrayList;
 
@@ -25,7 +31,10 @@ public class PlayerStatsFragment extends Fragment {
 
     private PlayerStatsViewModel playerStatsViewModel;
     public MatchAdapter MatchAdapter;
-    public RecyclerView PlayerMatchesRecyclerView;
+    public RecyclerViewEmptySupport PlayerMatchesRecyclerView;
+    public TextView LastMatchesPlayerGoalsTextView;
+    public TextView LastMatchesPlayerAssistsTextView;
+    public TextView LastMatchesPlayerRatingTextView;
 
     public static PlayerStatsFragment newInstance() {
         return new PlayerStatsFragment();
@@ -34,26 +43,36 @@ public class PlayerStatsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        playerStatsViewModel = new ViewModelProvider(this).get(PlayerStatsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_player_stats, container, false);
+        LastMatchesPlayerGoalsTextView = (TextView) root.findViewById(R.id.lastMatchesPlayerGoalsTextView);
+        LastMatchesPlayerAssistsTextView = (TextView) root.findViewById(R.id.lastMatchesPlayerAssistsTextView);
+        LastMatchesPlayerRatingTextView = (TextView) root.findViewById(R.id.lastMatchesPlayerRatingTextView);
         MatchAdapter = new MatchAdapter();
-        playerStatsViewModel.getMatches().observe(getViewLifecycleOwner(), new Observer<ArrayList<Match>>() {
+        playerStatsViewModel.getPlayerStats().observe(getViewLifecycleOwner(), new Observer<PlayerStatsResponse>() {
             @Override
-            public void onChanged(ArrayList<Match> matches) {
-                MatchAdapter.setMatches(matches);
+            public void onChanged(PlayerStatsResponse playerStatsResponse) {
+                setPlayerStats(playerStatsResponse);
+                MatchAdapter.setMatches(new ArrayList<>(playerStatsResponse.getMatchesPOJO()));
             }
         });
-        PlayerMatchesRecyclerView = (RecyclerView) root.findViewById(R.id.playerMatchesRecyclerView);
+        PlayerMatchesRecyclerView = (RecyclerViewEmptySupport) root.findViewById(R.id.playerMatchesRecyclerView);
         PlayerMatchesRecyclerView.setAdapter(MatchAdapter);
         PlayerMatchesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        PlayerMatchesRecyclerView.setEmptyView(root.findViewById(R.id.playerMatchesEmpty));
         return root;
     }
 
-    /*@Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(PlayerStatsViewModel.class);
-        // TODO: Use the ViewModel
-    }*/
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        playerStatsViewModel = new ViewModelProvider(this).get(PlayerStatsViewModel.class);
+        playerStatsViewModel.setPlayerStatsVoid(((PlayerActivity)getActivity()).getPlayerID());
+    }
+
+    public void setPlayerStats(PlayerStatsResponse playerStatsResponse) {
+        LastMatchesPlayerGoalsTextView.setText(StringHelper.getDashIfNumberIsZero(playerStatsResponse.getTotalGoals()));
+        LastMatchesPlayerAssistsTextView.setText(StringHelper.getDashIfNumberIsZero(playerStatsResponse.getTotalAssists()));
+        LastMatchesPlayerRatingTextView.setText(DoubleHelper.getDashIfNumberIsNullOrZero(playerStatsResponse.getTotalRating()));
+    }
 
 }
