@@ -182,7 +182,7 @@ exports.findPlayerOverviewByID = (req, res, id) => {
                              Height: player.Height,
                              Age: calculateAge(player.Birth_Date),
                              Birth_Date: player.Birth_Date,
-                             Shirt_Number: player.Shirt_Number, 
+                             Shirt_Number: player.Shirt_Number,
                              Preferred_Foot: player.Preferred_Foot == null ? false : player.Preferred_Foot,
                              Country_URL: ImageHelper.getCountryImagePath(country.Flag),
                              Pseudonym: player.Pseudonim,

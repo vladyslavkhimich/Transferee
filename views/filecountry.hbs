@@ -1,0 +1,19 @@
+<h1>Country file uploading</h1>
+<form method="post" enctype="multipart/form-data">
+    <div class="margin-top">
+        <label for="countrySelectInput">Country</label>
+        <input list="countryDatalist" id="countrySelectInput" name="playerID" autocomplete="off"/>
+        <datalist id="countryDatalist">
+            {{#each countryOptions}}
+                <option value="{{Country_ID}}">{{Country_Option}}</option>
+            {{/each}}
+        </datalist>
+    </div>
+    <div class="margin-top">
+        <input type="file" name="clubImage" accept="image/png" id="countryImageFileInput">
+        <div id="alertContainer"></div>
+    </div>
+    <div class="margin-top">
+        <button type="submit">Add image</button>
+    </div>
+</form>

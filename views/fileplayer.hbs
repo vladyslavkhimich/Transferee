@@ -1,0 +1,19 @@
+    <h1>Player file uploading</h1>
+    <form method="post" enctype="multipart/form-data">
+        <div class="margin-top">
+            <label for="playerSelectInput">Player</label>
+            <input list="playersDatalist" id="playerSelectInput" name="playerID" autocomplete="off"/>
+            <datalist id="playersDatalist">
+                {{#each playerOptions}}
+                        <option value="{{Player_ID}}">{{Player_Option}}</option>
+                    {{/each}}
+            </datalist>
+        </div>
+        <div class="margin-top">
+            <input type="file" name="playerImage" accept="image/png" id="playerImageFileInput">
+            <div id="alertContainer"></div>
+        </div>
+        <div class="margin-top">
+            <button type="submit">Add image</button>
+        </div>
+    </form>

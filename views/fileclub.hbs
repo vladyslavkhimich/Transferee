@@ -1,0 +1,19 @@
+<h1>Club file uploading</h1>
+<form method="post" enctype="multipart/form-data">
+    <div class="margin-top">
+        <label for="clubSelectInput">Club</label>
+        <input list="clubsDatalist" id="clubSelectInput" name="playerID" autocomplete="off"/>
+        <datalist id="clubsDatalist">
+            {{#each clubOptions}}
+                <option value="{{Club_ID}}">{{Club_Option}}</option>
+            {{/each}}
+        </datalist>
+    </div>
+    <div class="margin-top">
+        <input type="file" name="clubImage" accept="image/png" id="clubImageFileInput">
+        <div id="alertContainer"></div>
+    </div>
+    <div class="margin-top">
+        <button type="submit">Add image</button>
+    </div>
+</form>
