@@ -58,6 +58,9 @@
     <string name="no_favorites_players">You don\'t have favorite players</string>
     <string name="dash">-</string>
     <string name="no_matches_to_display">No matches to display</string>
+    <string name="fc_none">FC None</string>
+    <string name="cool_player">Cool player</string>
+    <string name="birth_date_placeholder">Jan 1, 1900</string>
 
     <!--Test strings-->
     <string name="bruno">Bruno Fernandes</string>

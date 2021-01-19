@@ -38,6 +38,8 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root =  inflater.inflate(R.layout.fragment_favorites, container, false);
+        favoritesViewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
+        favoritesViewModel.setFavoritePlayersVoid(FileHelper.returnStoredPlayersIds(getContext()));
         FavoritePlayerAdapter = new FavoritePlayerAdapter();
         favoritesViewModel.getFavoritePlayers().observe(getViewLifecycleOwner(), new Observer<ArrayList<PlayerPOJO>>() {
             @Override
@@ -55,7 +57,5 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        favoritesViewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
-        favoritesViewModel.setFavoritePlayersVoid(FileHelper.returnStoredPlayersIds(getContext()));
     }
 }

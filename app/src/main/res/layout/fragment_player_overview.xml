@@ -56,7 +56,7 @@
                             style="@style/WhiteRegularSearchTextStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/height_value" />
+                            android:text="@string/dash" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -80,13 +80,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/playerAgeTextView"
-                            android:text="@string/age_value"
+                            android:text="@string/dash"
                             style="@style/WhiteRegularSearchTextStyle"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/date_of_birth_value"
+                            android:text="@string/birth_date_placeholder"
                             android:gravity="center"
                             style="@style/GrayRegularTextStyle"
                             android:id="@+id/playerBirthDateTextView"
@@ -105,7 +105,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/playerShirtNumberTextView"
-                            android:text="@string/player_shirt_value"
+                            android:text="@string/dash"
                             style="@style/WhiteRegularSearchTextStyle"
                             />
                         <TextView
@@ -139,7 +139,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/playerPreferredFootTextView"
                                 style="@style/WhiteRegularSearchTextStyle"
-                                android:text="@string/preferred_foot_value"
+                                android:text="@string/dash"
                                 />
                             <TextView
                                 android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
                                 android:layout_height="25dp"
                                 android:layout_width="25dp"
                                 android:id="@+id/playerCountryImageView"
-                                android:src="@drawable/portugal"
+                                android:src="@drawable/world"
                                 />
                             <TextView
                                 android:layout_width="wrap_content"
@@ -189,7 +189,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/playerPseudonymTextView"
                         style="@style/WhiteRegularSearchTextStyle"
-                        android:text="@string/pseudonym_value"
+                        android:text="@string/dash"
                         />
                     <TextView
                         android:layout_width="wrap_content"
@@ -238,7 +238,7 @@
                         app:layout_constraintTop_toBottomOf="@id/primaryPositionTitle"
                         app:layout_constraintStart_toStartOf="parent"
                         style="@style/GrayRegularTextStyle"
-                        android:text="@string/primary_position_value"
+                        android:text="@string/dash"
                         android:ellipsize="end"
                         android:maxWidth="210dp"
                         android:id="@+id/playerPrimaryPositionTextView"
@@ -265,7 +265,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/GrayRegularTextStyle"
-                            android:text="@string/others_position_value"
+                            android:text="@string/dash"
                             android:ellipsize="end"
                             android:maxWidth="210dp"
                             android:id="@+id/playerOthersPositionsTextView"
