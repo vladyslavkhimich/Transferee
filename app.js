@@ -13,17 +13,25 @@ const AdminBroSequelize = require('@admin-bro/sequelize');
 AdminBro.registerAdapter(AdminBroSequelize);
 
 const adminBro = require('./admin');
-
+const {authenticate, sessionStorage} = require('./admin/util');
 
 const app = express();
 //const databaseSequelize = require('./models/others/database_sequelize');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
-const router = AdminBroExpress.buildRouter(adminBro);
+
+const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
+    cookiePassword: 'cookiePassword',
+    authenticate
+}, null, sessionStorage);
 const playerRouter = require('./routes/playerRouter');
 const imageRouter = require('./routes/imageRouter');
+const reportRouter = require('./routes/reportRouter');
 const ImageHelper = require('./helpers/ImageHelper');
+
+app.use(adminBro.options.rootPath, router);
+app.use(adminBro.options.loginPath, router);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
 const multer = require('multer');
 let assign = multer.diskStorage({
@@ -92,7 +100,7 @@ app.post('/imageup/country/upload', upload.single('countryImage'), function (req
         }
     });
 });
-app.use(adminBro.options.rootPath, router);
+
 app.use('/player', playerRouter);
 let dir = path.join(__dirname, 'public');
 app.use(express.static(dir));
@@ -105,6 +113,7 @@ app.set('view engine', 'hbs');
 
 
 app.use('/image', imageRouter);
+app.use('/report', reportRouter);
 app.get('/', function(request, response) {
    response.send('Express is working properly');
 });

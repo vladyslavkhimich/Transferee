@@ -11,7 +11,7 @@ exports.findTopRatedPlayers = (req, res) => {
             player.setDataValue('Average_Rating', calculatePlayerAverageRating(player.Match_Player_Ratings));
         });
         players.sort((a, b) => b['Average_Rating'] - a['Average_Rating']);
-        let playersResponse = players.slice(0, 5).map((player) => ({Player_ID: player.Player_ID, Name: player.Name, Image_URL: ImageHelper.getPlayerImagePath(player.Image), Club_URL: ImageHelper.getClubImagePath(player.Clubs[0].Logo), Club_Name: player.Clubs[0].Name, Average_Rating: player.getDataValue('Average_Rating')}));
+        let playersResponse = players.slice(0, 10).map((player) => ({Player_ID: player.Player_ID, Name: player.Name, Image_URL: ImageHelper.getPlayerImagePath(player.Image), Club_URL: ImageHelper.getClubImagePath(player.Clubs[0].Logo), Club_Name: player.Clubs[0].Name, Average_Rating: player.getDataValue('Average_Rating')}));
         let topRatedPlayersJSON = {topRatedPlayersPOJO: JSON.parse(JSON.stringify(playersResponse))};
         res.json(topRatedPlayersJSON);
         console.log('Players queried at ' + new Date());
@@ -32,7 +32,7 @@ exports.findTopMarketValuePlayers = (req, res) => {
          return player.Player_Price_Changes.length > 0;
       });
      players.sort((a, b) => b.Player_Price_Changes[0].Market_Price - a.Player_Price_Changes[0].Market_Price);
-     let playersResponse = players.slice(0,5).map((player) => ({Player_ID: player.Player_ID, Name: player.Name, Image_URL: ImageHelper.getPlayerImagePath(player.Image), Club_URL: ImageHelper.getClubImagePath(player.Clubs[0].Logo), Club_Name: player.Clubs[0].Name, Market_Price: player.Player_Price_Changes[0].Market_Price}));
+     let playersResponse = players.slice(0,10).map((player) => ({Player_ID: player.Player_ID, Name: player.Name, Image_URL: ImageHelper.getPlayerImagePath(player.Image), Club_URL: ImageHelper.getClubImagePath(player.Clubs[0].Logo), Club_Name: player.Clubs[0].Name, Market_Price: player.Player_Price_Changes[0].Market_Price}));
      let topMarketValuePlayersJSON = { topMarketValuePlayersPOJO: JSON.parse(JSON.stringify(playersResponse)) };
      res.json(topMarketValuePlayersJSON);
      console.log('Top market value players queried at ' + new Date());

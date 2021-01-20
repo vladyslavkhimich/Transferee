@@ -1,0 +1,18 @@
+<table class="report-table">
+    <caption><b>Top rated players</b></caption>
+    <tr>
+        <th>Player ID</th>
+        <th>Name</th>
+        <th>Club name</th>
+        <th>Market price</th>
+    </tr>
+    {{#each playersResponse}}
+        <tr>
+            <td>{{Player_ID}}</td>
+            <td>{{Name}}</td>
+            <td>{{Club_Name}}</td>
+            <td>{{Market_Price}}</td>
+        </tr>
+    {{/each}}
+</table>
+<a href="/pdfs/topmarket.pdf" download="topmarket.pdf" class="download-link margin-top">Download report</a>

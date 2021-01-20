@@ -22,11 +22,16 @@ const adminBroSidebarGroups = {
     player: {
         name: 'Player Management',
         icon: 'User'
+    },
+    management: {
+        name: 'Panel management',
+        icon: 'User admin'
     }
 };
 
 const adminBro = new AdminBro({
     rootPath: '/admin',
+    loginPath: '/admin/login',
     resources: [
         // club resources
         {
@@ -204,6 +209,27 @@ const adminBro = new AdminBro({
             }
         },
         // end of player resources
+        //start of management resources
+        {
+            resource: db.User,
+            options: {
+                parent: adminBroSidebarGroups.management,
+                properties: {
+                    encryptedPassword: {
+                        isVisible: false,
+                    },
+                    password: {
+                        type: 'password',
+                        isVisible: {
+                            show: false,
+                            edit: true,
+                            list: false,
+                            filter: false,
+                        }
+                    }
+                }
+            },
+        }
     ],
     branding: {
         companyName: 'Transferee',

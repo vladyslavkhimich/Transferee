@@ -1,0 +1,18 @@
+<table class="report-table">
+    <caption><b>Top rated players</b></caption>
+    <tr>
+        <th>Player ID</th>
+        <th>Name</th>
+        <th>Club name</th>
+        <th>Average rating</th>
+    </tr>
+    {{#each playersResponse}}
+        <tr>
+            <td>{{Player_ID}}</td>
+            <td>{{Name}}</td>
+            <td>{{Club_Name}}</td>
+            <td>{{Average_Rating}}</td>
+        </tr>
+    {{/each}}
+</table>
+<a href="/pdfs/toprated.pdf" download="toprated.pdf" class="download-link margin-top">Download report</a>
